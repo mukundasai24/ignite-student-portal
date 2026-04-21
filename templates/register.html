@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Registration Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="background-orbs">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="container">
+        <div class="glass-panel">
+            <div class="header">
+                <h1>Registration Portal</h1>
+                <p>Join the future. Elevate your potential.</p>
+            </div>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+              {% if messages %}
+                <div class="flash-messages">
+                {% for category, message in messages %}
+                  <div class="flash-alert flash-{{ category }}">{{ message }}</div>
+                {% endfor %}
+                </div>
+              {% endif %}
+            {% endwith %}
+
+            <form action="/submit" method="POST" id="registration-form">
+                <div class="input-group">
+                    <input type="text" id="name" name="name" required placeholder=" ">
+                    <label for="name">Full Name</label>
+                    <div class="border-highlight"></div>
+                </div>
+
+                <div class="input-group">
+                    <input type="text" id="roll_number" name="roll_number" required placeholder=" " maxlength="8" pattern="\d{8}">
+                    <label for="roll_number">Roll Number (8 Digits)</label>
+                    <div class="border-highlight"></div>
+                    <span class="error-msg" id="roll-error">Requires exactly 8 digits.</span>
+                </div>
+
+                <div class="input-group select-group">
+                    <select id="department" name="department" required>
+                        <option value="" disabled selected>Select Department</option>
+                        <option value="cse">CSE</option>
+                        <option value="cse self supporting">CSE Self Supporting</option>
+                        <option value="ece">ECE</option>
+                        <option value="eee">EEE</option>
+                        <option value="civil">Civil</option>
+                        <option value="mech">Mech</option>
+                        <option value="chem">Chem</option>
+                    </select>
+                    <div class="border-highlight"></div>
+                </div>
+
+                <div class="input-group">
+                    <input type="text" id="interested_domains" name="interested_domains" required placeholder=" ">
+                    <label for="interested_domains">Interested Domains</label>
+                    <div class="border-highlight"></div>
+                </div>
+
+                <div class="input-group">
+                    <input type="text" id="events" name="events" required placeholder=" ">
+                    <label for="events">Events to be Conducted</label>
+                    <div class="border-highlight"></div>
+                </div>
+
+                <button type="submit" class="glow-btn">
+                    <span>Register Now</span>
+                    <div class="btn-glow"></div>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
