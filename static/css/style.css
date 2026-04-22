@@ -4,8 +4,8 @@
     --glass-border: rgba(255, 100, 200, 0.15);
     --text-primary: #ffffff;
     --text-secondary: #b8b8cc;
-    --accent: #ff2a5f;
-    --accent-glow: rgba(255, 42, 95, 0.6);
+    --accent: #00e5ff;
+    --accent-glow: rgba(0, 229, 255, 0.6);
     --error: #ff003c;
     --success: #00ffaa;
 }

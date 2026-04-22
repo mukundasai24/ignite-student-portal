@@ -70,7 +70,7 @@ def login():
         username = request.form.get('username')
         password = request.form.get('password')
         # Hardcoded credentials for the admin
-        if username == 'admin' and password == 'admin123':
+        if username == 'studentportal' and password == '123rusa123':
             session['logged_in'] = True
             flash("Successfully logged in.", "success")
             return redirect('/admin')
