@@ -35,19 +35,16 @@
                 <div class="input-group">
                     <input type="text" id="name" name="name" required placeholder=" ">
                     <label for="name">Full Name</label>
-                    <div class="border-highlight"></div>
                 </div>
 
                 <div class="input-group">
                     <input type="email" id="email" name="email" required placeholder=" ">
                     <label for="email">Email Address</label>
-                    <div class="border-highlight"></div>
                 </div>
 
                 <div class="input-group">
                     <input type="text" id="roll_number" name="roll_number" required placeholder=" " maxlength="8" pattern="\d{8}">
                     <label for="roll_number">Roll Number (8 Digits)</label>
-                    <div class="border-highlight"></div>
                     <span class="error-msg" id="roll-error">Requires exactly 8 digits.</span>
                 </div>
 
@@ -62,19 +59,16 @@
                         <option value="mech">Mech</option>
                         <option value="chem">Chem</option>
                     </select>
-                    <div class="border-highlight"></div>
                 </div>
 
                 <div class="input-group">
                     <input type="text" id="interested_domains" name="interested_domains" required placeholder=" ">
                     <label for="interested_domains">Interested Domains</label>
-                    <div class="border-highlight"></div>
                 </div>
 
                 <div class="input-group">
                     <input type="text" id="events" name="events" required placeholder=" ">
                     <label for="events">Events to be Conducted</label>
-                    <div class="border-highlight"></div>
                 </div>
 
                 <button type="submit" class="glow-btn">
@@ -88,10 +82,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
     <script>
         VanillaTilt.init(document.querySelector(".glass-panel"), {
-            max: 5,
-            speed: 400,
+            max: 8,
+            speed: 800,
             glare: true,
-            "max-glare": 0.2,
+            "max-glare": 0.3,
+            perspective: 1000,
+            scale: 1.02
         });
     </script>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
