@@ -26,6 +26,7 @@
                         <th>Name</th>
                         <th>Department</th>
                         <th>Roll Number</th>
+                        <th>Email</th>
                         <th>Interested Domains</th>
                         <th>Events</th>
                     </tr>
@@ -36,6 +37,7 @@
                         <td class="primary-col">{{ student.name }}</td>
                         <td><span class="dept-badge inline-badge">{{ student.department | upper }}</span></td>
                         <td class="mono-text">{{ student.roll_number }}</td>
+                        <td style="color: var(--text-secondary); font-size: 0.9rem;">{{ student.email }}</td>
                         <td>{{ student.interested_domains }}</td>
                         <td>{{ student.events }}</td>
                     </tr>

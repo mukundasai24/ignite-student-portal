@@ -12,6 +12,7 @@ def init_db():
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL,
             roll_number TEXT NOT NULL,
+            email TEXT NOT NULL,
             department TEXT NOT NULL,
             interested_domains TEXT NOT NULL,
             events TEXT NOT NULL

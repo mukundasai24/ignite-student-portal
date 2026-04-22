@@ -37,9 +37,10 @@ def submit():
         department = request.form.get('department')
         interested_domains = request.form.get('interested_domains')
         events = request.form.get('events')
+        email = request.form.get('email')
 
         # Basic server-side validation
-        if not name or not roll_number or not department or not interested_domains or not events:
+        if not name or not roll_number or not department or not interested_domains or not events or not email:
             flash("All fields are required!", "error")
             return redirect('/')
         
@@ -56,8 +57,8 @@ def submit():
             conn.close()
             return redirect('/')
             
-        conn.execute('INSERT INTO students (name, roll_number, department, interested_domains, events) VALUES (?, ?, ?, ?, ?)',
-                     (name, roll_number, department, interested_domains, events))
+        conn.execute('INSERT INTO students (name, roll_number, email, department, interested_domains, events) VALUES (?, ?, ?, ?, ?, ?)',
+                     (name, roll_number, email, department, interested_domains, events))
         conn.commit()
         conn.close()
         

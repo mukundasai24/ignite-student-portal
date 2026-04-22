@@ -39,6 +39,12 @@
                 </div>
 
                 <div class="input-group">
+                    <input type="email" id="email" name="email" required placeholder=" ">
+                    <label for="email">Email Address</label>
+                    <div class="border-highlight"></div>
+                </div>
+
+                <div class="input-group">
                     <input type="text" id="roll_number" name="roll_number" required placeholder=" " maxlength="8" pattern="\d{8}">
                     <label for="roll_number">Roll Number (8 Digits)</label>
                     <div class="border-highlight"></div>
@@ -79,6 +85,15 @@
         </div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
+    <script>
+        VanillaTilt.init(document.querySelector(".glass-panel"), {
+            max: 5,
+            speed: 400,
+            glare: true,
+            "max-glare": 0.2,
+        });
+    </script>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>

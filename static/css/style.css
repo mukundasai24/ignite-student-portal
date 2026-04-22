@@ -1,13 +1,14 @@
-:root {
-    --bg-color: #090a0f;
-    --glass-bg: rgba(30, 15, 60, 0.15);
-    --glass-border: rgba(255, 100, 200, 0.15);
+    --bg-color: #050508;
+    --glass-bg: rgba(10, 10, 20, 0.4);
+    --glass-border: rgba(0, 229, 255, 0.2);
     --text-primary: #ffffff;
-    --text-secondary: #b8b8cc;
+    --text-secondary: #a0a0c0;
     --accent: #00e5ff;
-    --accent-glow: rgba(0, 229, 255, 0.6);
-    --error: #ff003c;
-    --success: #00ffaa;
+    --accent-glow: rgba(0, 229, 255, 0.8);
+    --neon-purple: #9d00ff;
+    --neon-pink: #ff00ea;
+    --error: #ff2d55;
+    --success: #00ffa3;
 }
 
 * {
@@ -79,9 +80,15 @@ body {
 }
 
 @keyframes float {
-    0% { transform: translate(0, 0) scale(1); }
-    100% { transform: translate(50px, 50px) scale(1.2); }
+    0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+    33% { transform: translate(30px, -50px) scale(1.1) rotate(5deg); }
+    66% { transform: translate(-20px, 20px) scale(0.9) rotate(-5deg); }
+    100% { transform: translate(0, 0) scale(1) rotate(0deg); }
 }
+
+.orb-1 { background: var(--accent); filter: blur(80px); }
+.orb-2 { background: var(--neon-purple); filter: blur(100px); }
+.orb-3 { background: var(--neon-pink); filter: blur(90px); }
 
 /* Container */
 .container {
@@ -98,13 +105,14 @@ body {
 /* Glass Panel */
 .glass-panel {
     background: var(--glass-bg);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
     border: 1px solid var(--glass-border);
-    border-radius: 24px;
-    padding: 3rem 2.5rem;
-    box-shadow: 0 30px 60px rgba(0,0,0,0.4);
-    animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    border-radius: 28px;
+    padding: 3.5rem 3rem;
+    box-shadow: 0 40px 100px rgba(0,0,0,0.6), inset 0 0 20px rgba(0, 229, 255, 0.05);
+    animation: slideUp 1s cubic-bezier(0.19, 1, 0.22, 1);
+    transform-style: preserve-3d;
 }
 
 @keyframes slideUp {
