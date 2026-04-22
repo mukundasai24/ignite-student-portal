@@ -1,16 +1,20 @@
 :root {
-    --bg-color: #020205;
-    --glass-bg: rgba(5, 5, 15, 0.7);
-    --glass-border: rgba(0, 242, 255, 0.4);
+    --bg-color: #050510;
+    --glass-bg: rgba(15, 15, 35, 0.8);
+    --glass-border: rgba(0, 242, 255, 0.6);
     --text-primary: #ffffff;
-    --text-secondary: #b0b0e0;
+    --text-secondary: #c0c0ff;
     --accent: #00f2ff;
-    --accent-glow: rgba(0, 242, 255, 0.6);
+    --accent-glow: rgba(0, 242, 255, 0.9);
     --neon-purple: #bc13fe;
     --neon-pink: #ff00bd;
     --error: #ff2d55;
     --success: #00ffa3;
     --cyber-gradient: linear-gradient(135deg, #00f2ff, #bc13fe, #ff00bd);
+}
+
+body {
+    background: #050510 !important; /* Force dark background */
 }
 
 * {
@@ -43,7 +47,7 @@ body {
     width: 100vw;
     height: 100vh;
     z-index: -1;
-    background: radial-gradient(circle at 50% 50%, #050510 0%, #020205 100%);
+    background: #050510;
     overflow: hidden;
 }
 
@@ -55,10 +59,11 @@ body {
     top: -50%;
     left: -50%;
     background: 
-        radial-gradient(circle at 20% 30%, rgba(0, 242, 255, 0.15) 0%, transparent 40%),
-        radial-gradient(circle at 80% 70%, rgba(188, 19, 254, 0.15) 0%, transparent 40%),
-        radial-gradient(circle at 40% 80%, rgba(255, 0, 189, 0.1) 0%, transparent 40%);
-    animation: backgroundMove 30s infinite alternate ease-in-out;
+        radial-gradient(circle at 20% 30%, rgba(0, 242, 255, 0.4) 0%, transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(188, 19, 254, 0.4) 0%, transparent 40%),
+        radial-gradient(circle at 40% 80%, rgba(255, 0, 189, 0.3) 0%, transparent 40%);
+    animation: backgroundMove 20s infinite alternate ease-in-out;
+    filter: blur(80px);
 }
 
 @keyframes backgroundMove {
@@ -127,32 +132,33 @@ body {
 .glass-panel {
     position: relative;
     background: var(--glass-bg);
-    backdrop-filter: blur(30px);
-    -webkit-backdrop-filter: blur(30px);
+    backdrop-filter: blur(40px);
+    -webkit-backdrop-filter: blur(40px);
     border-radius: 30px;
     padding: 4rem 3.5rem;
     box-shadow: 
-        0 40px 100px rgba(0,0,0,0.8),
-        inset 0 0 40px rgba(0, 242, 255, 0.05);
+        0 40px 100px rgba(0,0,0,0.9),
+        inset 0 0 40px rgba(0, 242, 255, 0.1);
     animation: panelEntrance 1.2s cubic-bezier(0.22, 1, 0.36, 1);
     transform-style: preserve-3d;
-    overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    overflow: visible;
+    border: 2px solid var(--glass-border);
 }
 
 .glass-panel::after {
     content: '';
     position: absolute;
-    top: -2px; left: -2px; right: -2px; bottom: -2px;
-    border-radius: 30px;
+    inset: -3px;
+    border-radius: 33px;
     background: var(--cyber-gradient);
     z-index: -1;
-    opacity: 0.3;
+    opacity: 1;
     mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     mask-composite: exclude;
     -webkit-mask-composite: xor;
-    padding: 1px;
+    padding: 3px;
+    filter: drop-shadow(0 0 15px var(--accent));
 }
 
 @keyframes panelEntrance {
