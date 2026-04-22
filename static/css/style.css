@@ -1,27 +1,23 @@
 :root {
-    --bg-color: #050510;
-    --glass-bg: rgba(15, 15, 35, 0.8);
-    --glass-border: rgba(0, 242, 255, 0.6);
-    --text-primary: #ffffff;
-    --text-secondary: #c0c0ff;
-    --accent: #00f2ff;
-    --accent-glow: rgba(0, 242, 255, 0.9);
-    --neon-purple: #bc13fe;
-    --neon-pink: #ff00bd;
-    --error: #ff2d55;
-    --success: #00ffa3;
-    --cyber-gradient: linear-gradient(135deg, #00f2ff, #bc13fe, #ff00bd);
+    --bg-color: #030408;
+    --glass-bg: linear-gradient(135deg, rgba(20, 20, 35, 0.7), rgba(10, 10, 20, 0.8));
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --accent: #38bdf8;
+    --accent-glow: rgba(56, 189, 248, 0.4);
+    --success: #10b981;
+    --error: #ef4444;
+    --card-shadow: 0 50px 100px -20px rgba(0, 0, 0, 0.7), 0 30px 60px -30px rgba(0, 0, 0, 0.8);
 }
 
-body {
-    background: #050510 !important; /* Force dark background */
-}
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 body {
@@ -39,7 +35,7 @@ body {
     padding: 3rem 0;
 }
 
-/* Extraordinary Animated Background */
+/* Professional Aurora Background */
 .background-orbs {
     position: fixed;
     top: 0;
@@ -47,28 +43,28 @@ body {
     width: 100vw;
     height: 100vh;
     z-index: -1;
-    background: #050510;
+    background: #030408;
     overflow: hidden;
 }
 
 .background-orbs::before {
     content: '';
     position: absolute;
-    width: 200%;
-    height: 200%;
-    top: -50%;
-    left: -50%;
+    width: 150%;
+    height: 150%;
+    top: -25%;
+    left: -25%;
     background: 
-        radial-gradient(circle at 20% 30%, rgba(0, 242, 255, 0.4) 0%, transparent 40%),
-        radial-gradient(circle at 80% 70%, rgba(188, 19, 254, 0.4) 0%, transparent 40%),
-        radial-gradient(circle at 40% 80%, rgba(255, 0, 189, 0.3) 0%, transparent 40%);
-    animation: backgroundMove 20s infinite alternate ease-in-out;
-    filter: blur(80px);
+        radial-gradient(circle at 10% 20%, rgba(56, 189, 248, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(15, 23, 42, 0.5) 0%, transparent 100%);
+    animation: auroraMove 25s infinite alternate linear;
+    filter: blur(120px);
 }
 
-@keyframes backgroundMove {
-    0% { transform: translate(0, 0) rotate(0deg); }
-    100% { transform: translate(-5%, -5%) rotate(5deg); }
+@keyframes auroraMove {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(-2%, -2%) scale(1.1); }
 }
 
 .orb {
@@ -128,37 +124,31 @@ body {
     max-width: 1200px;
 }
 
-/* Premium Glass Panel with Moving Neon Border */
+/* High-End Professional Card */
 .glass-panel {
     position: relative;
     background: var(--glass-bg);
-    backdrop-filter: blur(40px);
-    -webkit-backdrop-filter: blur(40px);
-    border-radius: 30px;
-    padding: 4rem 3.5rem;
-    box-shadow: 
-        0 40px 100px rgba(0,0,0,0.9),
-        inset 0 0 40px rgba(0, 242, 255, 0.1);
-    animation: panelEntrance 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border-radius: 24px;
+    padding: 3.5rem 3rem;
+    box-shadow: var(--card-shadow);
+    border: 1px solid var(--glass-border);
+    animation: professionalEntrance 1.5s cubic-bezier(0.16, 1, 0.3, 1);
     transform-style: preserve-3d;
-    overflow: visible;
-    border: 2px solid var(--glass-border);
 }
 
-.glass-panel::after {
-    content: '';
-    position: absolute;
-    inset: -3px;
-    border-radius: 33px;
-    background: var(--cyber-gradient);
-    z-index: -1;
-    opacity: 1;
-    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    mask-composite: exclude;
-    -webkit-mask-composite: xor;
-    padding: 3px;
-    filter: drop-shadow(0 0 15px var(--accent));
+@keyframes professionalEntrance {
+    0% { opacity: 0; transform: translateY(20px) scale(0.98); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.header h1 {
+    font-weight: 800;
+    font-size: 2.8rem;
+    color: #fff;
+    letter-spacing: -1.5px;
+    margin-bottom: 0.5rem;
 }
 
 @keyframes panelEntrance {
@@ -308,32 +298,29 @@ body {
     color: var(--success);
 }
 
-/* Cyber Button */
+/* Refined Action Button */
 .glow-btn {
     width: 100%;
     padding: 18px;
     border: none;
-    border-radius: 15px;
-    background: var(--cyber-gradient);
+    border-radius: 12px;
+    background: #fff;
     color: #000;
-    font-size: 1.2rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 2px;
+    font-size: 1.1rem;
+    font-weight: 600;
     cursor: pointer;
-    position: relative;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    box-shadow: 0 10px 30px rgba(0, 242, 255, 0.3);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
 .glow-btn:hover {
-    transform: translateY(-5px) scale(1.02);
-    box-shadow: 0 20px 40px rgba(0, 242, 255, 0.5);
-    filter: brightness(1.2);
+    transform: translateY(-2px);
+    background: #f1f5f9;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
 .glow-btn:active {
-    transform: translateY(0) scale(0.98);
+    transform: translateY(0);
 }
 
 .glow-btn span {
