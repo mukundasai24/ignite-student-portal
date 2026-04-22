@@ -54,7 +54,7 @@ body {
 .orb-1 {
     width: 400px;
     height: 400px;
-    background: #ff2a5f;
+    background: #00e5ff;
     top: -100px;
     left: 10%;
     animation-delay: 0s;
@@ -326,7 +326,7 @@ body {
 }
 
 .dept-badge {
-    background: linear-gradient(135deg, #ff2a5f, #7a00ff);
+    background: linear-gradient(135deg, #00e5ff, #7a00ff);
     padding: 4px 10px;
     border-radius: 20px;
     font-size: 0.75rem;
