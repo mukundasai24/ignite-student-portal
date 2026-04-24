@@ -3,61 +3,245 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Registered Students</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=3">
+    <title>Admin Dashboard — Student Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-<body class="admin-body">
-    <div class="background-orbs admin-orbs">
-        <div class="orb orb-1"></div>
-        <div class="orb orb-3"></div>
+<body>
+    <div class="mesh-bg">
+        <div class="mesh-blob blob-purple"></div>
+        <div class="mesh-blob blob-teal"></div>
+        <div class="mesh-blob blob-pink"></div>
     </div>
 
-    <div class="container admin-container">
-        <div class="header" style="text-align: center; margin-bottom: 2rem;">
-            <h1 class="admin-title">Registered Credentials</h1>
-            <p>Elegantly ordered by Name</p>
-        </div>
+    <div class="page-wrap admin-page-wrap">
+        <div class="card card-wide">
 
-        <div class="glass-table-container">
-            <table class="glass-table">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Department</th>
-                        <th>Roll Number</th>
-                        <th>Email</th>
-                        <th>Interested Domains</th>
-                        <th>Events</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for student in students %}
-                    <tr>
-                        <td class="primary-col">{{ student.name }}</td>
-                        <td><span class="dept-badge inline-badge">{{ student.department | upper }}</span></td>
-                        <td class="mono-text">{{ student.roll_number }}</td>
-                        <td style="color: var(--text-secondary); font-size: 0.9rem;">{{ student.email }}</td>
-                        <td>{{ student.interested_domains }}</td>
-                        <td>{{ student.events }}</td>
-                    </tr>
-                    {% else %}
-                    <tr>
-                        <td colspan="5" class="empty-state" style="padding: 3rem;">No registrations found.</td>
-                    </tr>
+            <!-- Top Bar -->
+            <div class="admin-topbar">
+                <div>
+                    <span class="badge-pill" style="margin-bottom:0.5rem;">Admin Dashboard</span>
+                    <h1>Registered Students</h1>
+                    <p>{{ total }} total registrations — sorted alphabetically</p>
+                </div>
+                <div class="topbar-actions">
+                    <a href="/admin/export" class="btn-export">⬇ Export CSV</a>
+                    <a href="/" class="btn-outline">← Registration</a>
+                    <button onclick="confirmDeleteAll()" class="btn-outline btn-danger">🗑 Delete All</button>
+                    <a href="/logout" class="btn-outline btn-danger">Logout</a>
+                </div>
+            </div>
+
+            <div class="admin-body">
+
+                <!-- Flash messages -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                  {% if messages %}
+                    {% for category, message in messages %}
+                      <div class="flash flash-{{ category }}" style="margin-bottom:1.2rem;">{{ message }}</div>
                     {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        
-        <div style="text-align: center; margin-top: 2rem;">
-            <a href="/logout" class="glow-btn logout-btn" style="text-decoration: none; display: inline-block; width: auto; padding: 10px 30px; margin-right: 15px; border-color: var(--error); color: var(--error);">
-                <span>Logout</span>
-            </a>
-            <a href="/" class="glow-btn" style="text-decoration: none; display: inline-block; width: auto; padding: 10px 30px;">
-                <span>Back to Registration</span>
-            </a>
+                  {% endif %}
+                {% endwith %}
+
+                <!-- Stats -->
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <div class="stat-num">{{ total }}</div>
+                        <div class="stat-lbl">Total</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-num">{{ students | selectattr('department','equalto','cse') | list | length }}</div>
+                        <div class="stat-lbl">CSE</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-num">{{ students | selectattr('department','equalto','ece') | list | length }}</div>
+                        <div class="stat-lbl">ECE</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-num">{{ students | selectattr('department','equalto','eee') | list | length }}</div>
+                        <div class="stat-lbl">EEE</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-num">{{ students | selectattr('department','equalto','mech') | list | length }}</div>
+                        <div class="stat-lbl">Mech</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-num">{{ students | selectattr('department','equalto','civil') | list | length }}</div>
+                        <div class="stat-lbl">Civil</div>
+                    </div>
+                </div>
+
+                <!-- Search & Filter -->
+                <form method="GET" action="/admin" id="search-form">
+                    <div class="search-bar">
+                        <input type="text" name="q" id="search-input"
+                               placeholder="Search by name, roll number or email…"
+                               value="{{ search }}" autocomplete="off">
+                        <select name="dept" id="dept-filter" class="{{ 'has-value' if dept_filter else '' }}">
+                            <option value="">All Departments</option>
+                            <option value="cse"              {{ 'selected' if dept_filter=='cse' }}>CSE</option>
+                            <option value="cse self supporting" {{ 'selected' if dept_filter=='cse self supporting' }}>CSE Self Supporting</option>
+                            <option value="ece"              {{ 'selected' if dept_filter=='ece' }}>ECE</option>
+                            <option value="eee"              {{ 'selected' if dept_filter=='eee' }}>EEE</option>
+                            <option value="civil"            {{ 'selected' if dept_filter=='civil' }}>Civil</option>
+                            <option value="mech"             {{ 'selected' if dept_filter=='mech' }}>Mech</option>
+                            <option value="chem"             {{ 'selected' if dept_filter=='chem' }}>Chem</option>
+                        </select>
+                        <button type="submit">Search</button>
+                        {% if search or dept_filter %}
+                        <a href="/admin" class="btn-outline" style="white-space:nowrap;">✕ Clear</a>
+                        {% endif %}
+                    </div>
+                </form>
+
+                {% if search or dept_filter %}
+                <p style="color:var(--muted); font-size:0.82rem; margin-bottom:1rem;">
+                    Showing {{ students | length }} result{{ 's' if students|length != 1 }} 
+                    {% if search %}for "<strong style="color:#c4b5fd;">{{ search }}</strong>"{% endif %}
+                    {% if dept_filter %}in <strong style="color:#c4b5fd;">{{ dept_filter | upper }}</strong>{% endif %}
+                </p>
+                {% endif %}
+
+                <!-- Table -->
+                <div class="tbl-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Department</th>
+                                <th>Roll Number</th>
+                                <th>Email</th>
+                                <th>Domains</th>
+                                <th>Events</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for student in students %}
+                            <tr id="row-{{ student.id }}">
+                                <td style="color:var(--muted);font-size:0.78rem;">{{ loop.index }}</td>
+                                <td class="td-name">{{ student.name }}</td>
+                                <td><span class="dept-badge">{{ student.department | upper }}</span></td>
+                                <td class="td-roll">{{ student.roll_number }}</td>
+                                <td class="td-email">{{ student.email }}</td>
+                                <td style="color:var(--muted);font-size:0.83rem;">{{ student.interested_domains }}</td>
+                                <td style="color:var(--muted);font-size:0.83rem;">{{ student.events }}</td>
+                                <td>
+                                    <form method="POST" action="/admin/delete/{{ student.id }}" id="del-{{ student.id }}">
+                                        <button type="button" class="btn-delete"
+                                            onclick="confirmDelete({{ student.id }}, '{{ student.name }}')"
+                                            title="Delete {{ student.name }}">
+                                            🗑
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="8" class="empty-state">
+                                    {% if search or dept_filter %}
+                                    No students match your search.
+                                    {% else %}
+                                    No students registered yet.
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
         </div>
     </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="del-modal" style="display:none; position:fixed; inset:0; z-index:100;
+        background:rgba(0,0,0,0.7); backdrop-filter:blur(4px);
+        justify-content:center; align-items:center;">
+        <div style="background:#1e293b; border:1px solid rgba(248,113,113,0.3);
+            border-radius:18px; padding:2rem 2.5rem; max-width:400px; width:90%;
+            box-shadow:0 25px 60px rgba(0,0,0,0.6); animation:fadeUp 0.3s ease both;">
+            <h3 style="font-size:1.2rem; font-weight:700; margin-bottom:0.5rem; color:#f8fafc;">Delete Record?</h3>
+            <p id="del-msg" style="color:#94a3b8; font-size:0.9rem; margin-bottom:1.5rem;"></p>
+            <div style="display:flex; gap:0.75rem;">
+                <button onclick="closeModal()" class="btn-outline" style="flex:1;">Cancel</button>
+                <button id="del-confirm-btn" onclick="submitDelete()" class="btn-outline btn-danger" style="flex:1;">Yes, Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete All Confirmation Modal -->
+    <div id="del-all-modal" style="display:none; position:fixed; inset:0; z-index:100;
+        background:rgba(0,0,0,0.7); backdrop-filter:blur(4px);
+        justify-content:center; align-items:center;">
+        <div style="background:#1e293b; border:1px solid rgba(248,113,113,0.4);
+            border-radius:18px; padding:2rem 2.5rem; max-width:420px; width:90%;
+            box-shadow:0 25px 60px rgba(0,0,0,0.6);">
+            <h3 style="font-size:1.2rem; font-weight:700; margin-bottom:0.5rem; color:#f87171;">⚠ Delete ALL Records?</h3>
+            <p style="color:#94a3b8; font-size:0.9rem; margin-bottom:1.5rem;">
+                This will permanently delete <strong style="color:#f8fafc;">all student registrations</strong>.
+                This action cannot be undone.
+            </p>
+            <form method="POST" action="/admin/delete-all">
+                <div style="display:flex; gap:0.75rem;">
+                    <button type="button" onclick="closeAllModal()" class="btn-outline" style="flex:1;">Cancel</button>
+                    <button type="submit" class="btn-outline btn-danger" style="flex:1;">Yes, Delete All</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+    let pendingDeleteId = null;
+
+    function confirmDelete(id, name) {
+        pendingDeleteId = id;
+        document.getElementById('del-msg').textContent =
+            `Are you sure you want to delete "${name}"? This cannot be undone.`;
+        const modal = document.getElementById('del-modal');
+        modal.style.display = 'flex';
+    }
+
+    function submitDelete() {
+        if (pendingDeleteId) document.getElementById('del-' + pendingDeleteId).submit();
+    }
+
+    function closeModal() {
+        document.getElementById('del-modal').style.display = 'none';
+        pendingDeleteId = null;
+    }
+
+    function confirmDeleteAll() {
+        document.getElementById('del-all-modal').style.display = 'flex';
+    }
+
+    function closeAllModal() {
+        document.getElementById('del-all-modal').style.display = 'none';
+    }
+
+    /* Close modals on backdrop click */
+    document.getElementById('del-modal').addEventListener('click', function(e) {
+        if (e.target === this) closeModal();
+    });
+    document.getElementById('del-all-modal').addEventListener('click', function(e) {
+        if (e.target === this) closeAllModal();
+    });
+
+    /* Live search — submit on department change */
+    document.getElementById('dept-filter').addEventListener('change', function() {
+        this.classList.toggle('has-value', !!this.value);
+        document.getElementById('search-form').submit();
+    });
+
+    /* Live search on typing (debounced) */
+    let timer;
+    document.getElementById('search-input').addEventListener('input', function() {
+        clearTimeout(timer);
+        timer = setTimeout(() => document.getElementById('search-form').submit(), 400);
+    });
+    </script>
 </body>
 </html>

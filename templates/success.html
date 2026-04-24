@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Successful — Student Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="mesh-bg">
+        <div class="mesh-blob blob-purple"></div>
+        <div class="mesh-blob blob-teal"></div>
+        <div class="mesh-blob blob-pink"></div>
+    </div>
+
+    <div class="page-wrap">
+        <div class="card">
+
+            <!-- Success Icon -->
+            <div class="success-icon">✓</div>
+
+            <div class="card-head">
+                <h1>You're Registered!</h1>
+                <p>Welcome aboard, <strong style="color:#c4b5fd;">{{ name }}</strong>.<br>Your registration was submitted successfully.</p>
+            </div>
+
+            <!-- Details -->
+            <div class="success-details">
+                <div class="success-row">
+                    <span>Name</span>
+                    <span>{{ name }}</span>
+                </div>
+                <div class="success-row">
+                    <span>Roll Number</span>
+                    <span style="color:#a78bfa; font-family:monospace;">{{ roll_number }}</span>
+                </div>
+                <div class="success-row">
+                    <span>Department</span>
+                    <span>
+                        <span class="dept-badge">{{ department }}</span>
+                    </span>
+                </div>
+            </div>
+
+            <button onclick="window.location='/'" class="btn-submit">
+                Register Another Student <span>→</span>
+            </button>
+
+        </div>
+    </div>
+</body>
+</html>

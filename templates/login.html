@@ -3,66 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login - Student Portal</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=3">
+    <title>Admin Login — Student Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-    <div class="background-orbs">
-        <div class="orb orb-1"></div>
-        <div class="orb orb-3"></div>
+
+    <div class="mesh-bg">
+        <div class="mesh-blob blob-purple"></div>
+        <div class="mesh-blob blob-teal"></div>
+        <div class="mesh-blob blob-pink"></div>
     </div>
 
-    <div class="container">
-        <div class="glass-panel" style="max-width: 400px; margin: 0 auto;">
-            <div class="header">
-                <h1>Admin Login</h1>
-                <p>Secure Portal Access</p>
+    <div class="page-wrap">
+        <div class="card" style="max-width: 420px;">
+
+            <div style="text-align:center;">
+                <span class="badge-pill">Admin Access</span>
+            </div>
+
+            <div class="card-head">
+                <h1>Welcome Back</h1>
+                <p>Secure portal — authorized personnel only.</p>
             </div>
 
             {% with messages = get_flashed_messages(with_categories=true) %}
               {% if messages %}
-                <div class="flash-messages">
                 {% for category, message in messages %}
-                  <div class="flash-alert flash-{{ category }}">{{ message }}</div>
+                  <div class="flash flash-{{ category }}">{{ message }}</div>
                 {% endfor %}
-                </div>
               {% endif %}
             {% endwith %}
 
-            <form action="/login" method="POST">
-                <div class="input-group">
-                    <input type="text" id="username" name="username" required placeholder=" ">
-                    <label for="username">Username</label>
-                    <div class="border-highlight"></div>
+            <form action="/login" method="POST" id="login-form">
+
+                <div class="field">
+                    <input type="text" id="username" name="username" placeholder="Username" required autocomplete="off">
                 </div>
 
-                <div class="input-group">
-                    <input type="password" id="password" name="password" required placeholder=" ">
-                    <label for="password">Password</label>
-                    <div class="border-highlight"></div>
+                <div class="field">
+                    <input type="password" id="password" name="password" placeholder="Password" required>
                 </div>
 
-                <button type="submit" class="glow-btn">
-                    <span>Login</span>
-                    <div class="btn-glow"></div>
+                <button type="submit" class="btn-submit" id="login-btn">
+                    Access Portal <span class="btn-arrow">→</span>
                 </button>
+
             </form>
-            
-            <div style="text-align: center; margin-top: 1.5rem;">
-                <a href="/" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">Back to Registration</a>
+
+            <div class="card-footer-link">
+                <a href="/">← Back to Registration</a>
             </div>
+
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
     <script>
-        VanillaTilt.init(document.querySelector(".glass-panel"), {
-            max: 5,
-            speed: 400,
-            glare: true,
-            "max-glare": 0.2,
-        });
+    document.getElementById('login-form').addEventListener('submit', function() {
+        const btn = document.getElementById('login-btn');
+        btn.textContent = 'Authenticating…';
+        btn.style.opacity = '0.8';
+    });
     </script>
+
 </body>
 </html>

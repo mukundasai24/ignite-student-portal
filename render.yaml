@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: ignite-student-portal
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    disk:
+      name: student-data
+      mountPath: /opt/render/project/src
+      sizeGB: 1
+    envVars:
+      - key: ADMIN_USERNAME
+        value: studentportal
+      - key: ADMIN_PASSWORD
+        value: 123rusa123
+      - key: SECRET_KEY
+        generateValue: true
