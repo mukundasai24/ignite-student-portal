@@ -1,43 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Portal — Register</title>
     <meta name="description" content="Register for the Ignite Student Portal.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <style>
         /* ── PARTICLE CANVAS ── */
-        #particles { position:fixed; inset:0; z-index:0; pointer-events:none; }
+        #particles {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
 
         /* ── STAGGERED FIELD ENTRY ── */
-        .field, .field-group-label, .btn-submit {
+        .field,
+        .field-group-label,
+        .btn-submit {
             opacity: 0;
             transform: translateY(18px);
-            animation: fieldIn 0.5s cubic-bezier(0.16,1,0.3,1) forwards;
+            animation: fieldIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
+
         @keyframes fieldIn {
-            to { opacity:1; transform:translateY(0); }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-        .field-group-label:nth-of-type(1) { animation-delay: 0.35s; }
-        #f-name    { animation-delay: 0.42s; }
-        #f-email   { animation-delay: 0.50s; }
-        .fg2       { animation-delay: 0.58s; }
-        #f-dept    { animation-delay: 0.65s; }
-        #f-roll    { animation-delay: 0.72s; }
-        .fg3       { animation-delay: 0.80s; }
-        #f-domains { animation-delay: 0.87s; }
-        #f-events  { animation-delay: 0.94s; }
-        .btn-submit{ animation-delay: 1.02s; }
+
+        .field-group-label:nth-of-type(1) {
+            animation-delay: 0.35s;
+        }
+
+        #f-name {
+            animation-delay: 0.42s;
+        }
+
+        #f-email {
+            animation-delay: 0.50s;
+        }
+
+        .fg2 {
+            animation-delay: 0.58s;
+        }
+
+        #f-dept {
+            animation-delay: 0.65s;
+        }
+
+        #f-roll {
+            animation-delay: 0.72s;
+        }
+
+        .fg3 {
+            animation-delay: 0.80s;
+        }
+
+        #f-domains {
+            animation-delay: 0.87s;
+        }
+
+        #f-events {
+            animation-delay: 0.94s;
+        }
+
+        .btn-submit {
+            animation-delay: 1.02s;
+        }
 
         /* ── CARD HEADER ANIMATE ── */
-        .card-head { opacity:0; animation: fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.15s forwards; }
-        .badge-wrap { opacity:0; animation: fadeUp 0.6s cubic-bezier(0.16,1,0.3,1) 0.05s forwards; }
+        .card-head {
+            opacity: 0;
+            animation: fadeUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
+        }
+
+        .badge-wrap {
+            opacity: 0;
+            animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.05s forwards;
+        }
+
         @keyframes fadeUp {
-            from { opacity:0; transform:translateY(20px); }
-            to   { opacity:1; transform:translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* ── TYPING CURSOR on subtitle ── */
@@ -47,48 +105,87 @@
             color: #8b5cf6;
             margin-left: 1px;
         }
-        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: 0
+            }
+        }
 
         /* ── INPUT FOCUS GLOW PULSE ── */
-        .field input:focus, .field select:focus {
+        .field input:focus,
+        .field select:focus {
             animation: focusPulse 1.8s ease infinite;
         }
+
         @keyframes focusPulse {
-            0%,100% { box-shadow: 0 0 0 3px rgba(139,92,246,0.12); }
-            50%      { box-shadow: 0 0 0 5px rgba(139,92,246,0.22), 0 0 20px rgba(139,92,246,0.08); }
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.12);
+            }
+
+            50% {
+                box-shadow: 0 0 0 5px rgba(139, 92, 246, 0.22), 0 0 20px rgba(139, 92, 246, 0.08);
+            }
         }
 
         /* ── BUTTON SHIMMER ── */
         .btn-submit {
             overflow: hidden;
         }
+
         .btn-submit::after {
             content: '';
             position: absolute;
-            top: 0; left: -100%;
-            width: 60%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
+            top: 0;
+            left: -100%;
+            width: 60%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.18), transparent);
             transform: skewX(-20deg);
             animation: shimmer 2.8s ease infinite;
         }
-        .btn-submit { position: relative; }
+
+        .btn-submit {
+            position: relative;
+        }
+
         @keyframes shimmer {
-            0%   { left: -100%; }
-            60%  { left: 150%; }
-            100% { left: 150%; }
+            0% {
+                left: -100%;
+            }
+
+            60% {
+                left: 150%;
+            }
+
+            100% {
+                left: 150%;
+            }
         }
 
         /* ── RIPPLE on button click ── */
         .ripple {
             position: absolute;
             border-radius: 50%;
-            background: rgba(255,255,255,0.3);
+            background: rgba(255, 255, 255, 0.3);
             transform: scale(0);
             animation: rippleAnim 0.55s linear;
             pointer-events: none;
         }
+
         @keyframes rippleAnim {
-            to { transform: scale(4); opacity: 0; }
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
         }
 
         /* ── PORTAL BRAND HEADER ── */
@@ -96,6 +193,7 @@
             text-align: center;
             margin-bottom: 0.6rem;
         }
+
         .portal-brand-title {
             display: inline-block;
             font-size: 0.72rem;
@@ -109,17 +207,24 @@
             background-clip: text;
             animation: brandShift 4s linear infinite;
             padding: 0.3rem 1rem;
-            border: 1px solid rgba(139,92,246,0.25);
+            border: 1px solid rgba(139, 92, 246, 0.25);
             border-radius: 20px;
             backdrop-filter: blur(8px);
         }
+
         @keyframes brandShift {
-            0%   { background-position: 0% 50%; }
-            100% { background-position: 300% 50%; }
+            0% {
+                background-position: 0% 50%;
+            }
+
+            100% {
+                background-position: 300% 50%;
+            }
         }
+
         .portal-quote {
             font-size: 0.78rem;
-            color: rgba(148,163,184,0.75);
+            color: rgba(148, 163, 184, 0.75);
             font-style: italic;
             margin-top: 0.4rem;
             letter-spacing: 0.02em;
@@ -127,22 +232,24 @@
 
         /* ── SUCCESS CHECKMARK on valid input ── */
         .field.has-success input {
-            border-color: rgba(52,211,153,0.5);
+            border-color: rgba(52, 211, 153, 0.5);
         }
 
         /* Progress bar at top */
         #progress-bar {
             position: fixed;
-            top: 0; left: 0;
+            top: 0;
+            left: 0;
             height: 3px;
             background: linear-gradient(90deg, #8b5cf6, #ec4899);
             width: 0%;
             z-index: 999;
             transition: width 0.4s ease;
-            box-shadow: 0 0 8px rgba(139,92,246,0.6);
+            box-shadow: 0 0 8px rgba(139, 92, 246, 0.6);
         }
     </style>
 </head>
+
 <body>
 
     <!-- Progress bar -->
@@ -172,11 +279,11 @@
             </div>
 
             {% with messages = get_flashed_messages(with_categories=true) %}
-              {% if messages %}
-                {% for category, message in messages %}
-                  <div class="flash flash-{{ category }}">{{ message }}</div>
-                {% endfor %}
-              {% endif %}
+            {% if messages %}
+            {% for category, message in messages %}
+            <div class="flash flash-{{ category }}">{{ message }}</div>
+            {% endfor %}
+            {% endif %}
             {% endwith %}
 
             <form action="/submit" method="POST" id="reg-form" novalidate>
@@ -210,19 +317,22 @@
                 </div>
 
                 <div class="field" id="f-roll">
-                    <input type="text" id="roll_number" name="roll_number" placeholder="Roll Number (8 digits)" required maxlength="8" pattern="\d{8}" autocomplete="off" inputmode="numeric">
+                    <input type="text" id="roll_number" name="roll_number" placeholder="Roll Number (8 digits)" required
+                        maxlength="8" pattern="\d{8}" autocomplete="off" inputmode="numeric">
                     <span class="field-hint" id="hint-roll"></span>
                 </div>
 
                 <div class="field-group-label fg3">Preferences</div>
 
                 <div class="field" id="f-domains">
-                    <input type="text" id="interested_domains" name="interested_domains" placeholder="Interested Domain (e.g. AI, Web)" required>
+                    <input type="text" id="interested_domains" name="interested_domains"
+                        placeholder="Interested Domain (e.g. AI, Web)" required>
                     <span class="field-hint" id="hint-domains"></span>
                 </div>
 
                 <div class="field" id="f-events">
-                    <input type="text" id="events" name="events" placeholder="Events &amp; Workshops of Interest" required>
+                    <input type="text" id="events" name="events" placeholder="Events &amp; Workshops of Interest"
+                        required>
                     <span class="field-hint" id="hint-events"></span>
                 </div>
 
@@ -234,324 +344,333 @@
     </div>
 
     <script>
-    /* ══════════════════════════════════════
-       1. PARTICLE CANVAS
-    ══════════════════════════════════════ */
-    const canvas = document.getElementById('particles');
-    const ctx = canvas.getContext('2d');
-    let W, H, dots = [];
+        /* ══════════════════════════════════════
+           1. PARTICLE CANVAS
+        ══════════════════════════════════════ */
+        const canvas = document.getElementById('particles');
+        const ctx = canvas.getContext('2d');
+        let W, H, dots = [];
 
-    function resize() {
-        W = canvas.width  = window.innerWidth;
-        H = canvas.height = window.innerHeight;
-    }
-
-    const COLORS = ['139,92,246','45,212,191','236,72,153','99,102,241'];
-    // Shape types: 0=dot, 1=triangle, 2=square, 3=ring, 4=cross, 5=star
-    function mkParticle() {
-        return {
-            x:     Math.random() * W,
-            y:     Math.random() * H,
-            r:     Math.random() * 3 + 0.8,
-            vx:    (Math.random() - 0.5) * 0.4,
-            vy:    (Math.random() - 0.5) * 0.4,
-            rot:   Math.random() * Math.PI * 2,
-            rotV:  (Math.random() - 0.5) * 0.025,
-            alpha: Math.random() * 0.45 + 0.12,
-            color: COLORS[Math.floor(Math.random() * COLORS.length)],
-            type:  Math.floor(Math.random() * 6)
-        };
-    }
-
-    function initDots() {
-        dots = Array.from({length: 110}, mkParticle);
-    }
-
-    function drawShape(d) {
-        const { x, y, r, rot, alpha, color, type } = d;
-        ctx.save();
-        ctx.translate(x, y);
-        ctx.rotate(rot);
-        ctx.globalAlpha = alpha;
-        const rgba = `rgba(${color},${alpha})`;
-        switch (type) {
-            case 0: // dot
-                ctx.beginPath();
-                ctx.arc(0, 0, r, 0, Math.PI * 2);
-                ctx.fillStyle = rgba;
-                ctx.fill();
-                break;
-            case 1: // triangle
-                ctx.beginPath();
-                ctx.moveTo(0, -r * 1.6);
-                ctx.lineTo(r * 1.4, r);
-                ctx.lineTo(-r * 1.4, r);
-                ctx.closePath();
-                ctx.strokeStyle = rgba;
-                ctx.lineWidth = 0.8;
-                ctx.stroke();
-                break;
-            case 2: // square
-                ctx.strokeStyle = rgba;
-                ctx.lineWidth = 0.8;
-                ctx.strokeRect(-r, -r, r * 2, r * 2);
-                break;
-            case 3: // ring
-                ctx.beginPath();
-                ctx.arc(0, 0, r * 1.3, 0, Math.PI * 2);
-                ctx.strokeStyle = rgba;
-                ctx.lineWidth = 0.7;
-                ctx.stroke();
-                break;
-            case 4: // cross / plus
-                ctx.strokeStyle = rgba;
-                ctx.lineWidth = 0.8;
-                ctx.beginPath(); ctx.moveTo(-r * 1.4, 0); ctx.lineTo(r * 1.4, 0); ctx.stroke();
-                ctx.beginPath(); ctx.moveTo(0, -r * 1.4); ctx.lineTo(0, r * 1.4); ctx.stroke();
-                break;
-            case 5: // 4-pointed star
-                ctx.strokeStyle = rgba;
-                ctx.lineWidth = 0.7;
-                ctx.beginPath();
-                for (let i = 0; i < 8; i++) {
-                    const angle = (i / 8) * Math.PI * 2;
-                    const rad   = i % 2 === 0 ? r * 1.8 : r * 0.7;
-                    i === 0 ? ctx.moveTo(Math.cos(angle)*rad, Math.sin(angle)*rad)
-                             : ctx.lineTo(Math.cos(angle)*rad, Math.sin(angle)*rad);
-                }
-                ctx.closePath();
-                ctx.stroke();
-                break;
+        function resize() {
+            W = canvas.width = window.innerWidth;
+            H = canvas.height = window.innerHeight;
         }
-        ctx.restore();
-    }
 
-    function drawDots() {
-        ctx.clearRect(0, 0, W, H);
-        dots.forEach(d => {
-            drawShape(d);
-            d.x += d.vx; d.y += d.vy;
-            d.rot += d.rotV;
-            if (d.x < -10 || d.x > W + 10) d.vx *= -1;
-            if (d.y < -10 || d.y > H + 10) d.vy *= -1;
-        });
+        const COLORS = ['139,92,246', '45,212,191', '236,72,153', '99,102,241'];
+        // Shape types: 0=dot, 1=triangle, 2=square, 3=ring, 4=cross, 5=star
+        function mkParticle() {
+            return {
+                x: Math.random() * W,
+                y: Math.random() * H,
+                r: Math.random() * 3 + 0.8,
+                vx: (Math.random() - 0.5) * 0.4,
+                vy: (Math.random() - 0.5) * 0.4,
+                rot: Math.random() * Math.PI * 2,
+                rotV: (Math.random() - 0.5) * 0.025,
+                alpha: Math.random() * 0.45 + 0.12,
+                color: COLORS[Math.floor(Math.random() * COLORS.length)],
+                type: Math.floor(Math.random() * 6)
+            };
+        }
 
-        /* Connect nearby dots */
-        for (let i = 0; i < dots.length; i++) {
-            for (let j = i + 1; j < dots.length; j++) {
-                const dx = dots[i].x - dots[j].x;
-                const dy = dots[i].y - dots[j].y;
-                const dist = Math.sqrt(dx*dx + dy*dy);
-                if (dist < 100) {
+        function initDots() {
+            dots = Array.from({ length: 110 }, mkParticle);
+        }
+
+        function drawShape(d) {
+            const { x, y, r, rot, alpha, color, type } = d;
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate(rot);
+            ctx.globalAlpha = alpha;
+            const rgba = `rgba(${color},${alpha})`;
+            switch (type) {
+                case 0: // dot
                     ctx.beginPath();
-                    ctx.moveTo(dots[i].x, dots[i].y);
-                    ctx.lineTo(dots[j].x, dots[j].y);
-                    ctx.strokeStyle = `rgba(139,92,246,${0.07 * (1 - dist/100)})`;
-                    ctx.lineWidth = 0.4;
+                    ctx.arc(0, 0, r, 0, Math.PI * 2);
+                    ctx.fillStyle = rgba;
+                    ctx.fill();
+                    break;
+                case 1: // triangle
+                    ctx.beginPath();
+                    ctx.moveTo(0, -r * 1.6);
+                    ctx.lineTo(r * 1.4, r);
+                    ctx.lineTo(-r * 1.4, r);
+                    ctx.closePath();
+                    ctx.strokeStyle = rgba;
+                    ctx.lineWidth = 0.8;
                     ctx.stroke();
+                    break;
+                case 2: // square
+                    ctx.strokeStyle = rgba;
+                    ctx.lineWidth = 0.8;
+                    ctx.strokeRect(-r, -r, r * 2, r * 2);
+                    break;
+                case 3: // ring
+                    ctx.beginPath();
+                    ctx.arc(0, 0, r * 1.3, 0, Math.PI * 2);
+                    ctx.strokeStyle = rgba;
+                    ctx.lineWidth = 0.7;
+                    ctx.stroke();
+                    break;
+                case 4: // cross / plus
+                    ctx.strokeStyle = rgba;
+                    ctx.lineWidth = 0.8;
+                    ctx.beginPath(); ctx.moveTo(-r * 1.4, 0); ctx.lineTo(r * 1.4, 0); ctx.stroke();
+                    ctx.beginPath(); ctx.moveTo(0, -r * 1.4); ctx.lineTo(0, r * 1.4); ctx.stroke();
+                    break;
+                case 5: // 4-pointed star
+                    ctx.strokeStyle = rgba;
+                    ctx.lineWidth = 0.7;
+                    ctx.beginPath();
+                    for (let i = 0; i < 8; i++) {
+                        const angle = (i / 8) * Math.PI * 2;
+                        const rad = i % 2 === 0 ? r * 1.8 : r * 0.7;
+                        i === 0 ? ctx.moveTo(Math.cos(angle) * rad, Math.sin(angle) * rad)
+                            : ctx.lineTo(Math.cos(angle) * rad, Math.sin(angle) * rad);
+                    }
+                    ctx.closePath();
+                    ctx.stroke();
+                    break;
+            }
+            ctx.restore();
+        }
+
+        function drawDots() {
+            ctx.clearRect(0, 0, W, H);
+            dots.forEach(d => {
+                drawShape(d);
+                d.x += d.vx; d.y += d.vy;
+                d.rot += d.rotV;
+                if (d.x < -10 || d.x > W + 10) d.vx *= -1;
+                if (d.y < -10 || d.y > H + 10) d.vy *= -1;
+            });
+
+            /* Connect nearby dots */
+            for (let i = 0; i < dots.length; i++) {
+                for (let j = i + 1; j < dots.length; j++) {
+                    const dx = dots[i].x - dots[j].x;
+                    const dy = dots[i].y - dots[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 100) {
+                        ctx.beginPath();
+                        ctx.moveTo(dots[i].x, dots[i].y);
+                        ctx.lineTo(dots[j].x, dots[j].y);
+                        ctx.strokeStyle = `rgba(139,92,246,${0.07 * (1 - dist / 100)})`;
+                        ctx.lineWidth = 0.4;
+                        ctx.stroke();
+                    }
                 }
             }
+            requestAnimationFrame(drawDots);
         }
-        requestAnimationFrame(drawDots);
-    }
 
-    resize(); initDots(); drawDots();
-    window.addEventListener('resize', () => { resize(); initDots(); });
+        resize(); initDots(); drawDots();
+        window.addEventListener('resize', () => { resize(); initDots(); });
 
-    /* ══════════════════════════════════════
-       MOUSE PARALLAX — card + blobs follow mouse
-    ══════════════════════════════════════ */
-    const card      = document.querySelector('.card');
-    const blobPurple = document.querySelector('.blob-purple');
-    const blobTeal   = document.querySelector('.blob-teal');
-    const blobPink   = document.querySelector('.blob-pink');
+        /* ══════════════════════════════════════
+           MOUSE PARALLAX — card + blobs follow mouse
+        ══════════════════════════════════════ */
+        const card = document.querySelector('.card');
+        const blobPurple = document.querySelector('.blob-purple');
+        const blobTeal = document.querySelector('.blob-teal');
+        const blobPink = document.querySelector('.blob-pink');
 
-    let mouseX = 0, mouseY = 0;
-    let cardRX = 0, cardRY = 0;
-    let bpX = 0, bpY = 0, btX = 0, btY = 0, bkX = 0, bkY = 0;
+        let mouseX = 0, mouseY = 0;
+        let cardRX = 0, cardRY = 0;
+        let bpX = 0, bpY = 0, btX = 0, btY = 0, bkX = 0, bkY = 0;
 
-    document.addEventListener('mousemove', e => {
-        mouseX = (e.clientX / window.innerWidth  - 0.5) * 2;  // -1 to 1
-        mouseY = (e.clientY / window.innerHeight - 0.5) * 2;  // -1 to 1
-    });
-
-    (function parallaxLoop() {
-        // Card subtle tilt toward mouse
-        cardRX += (mouseY * -6 - cardRX) * 0.06;
-        cardRY += (mouseX *  6 - cardRY) * 0.06;
-        card.style.transform = `perspective(1000px) rotateX(${cardRX}deg) rotateY(${cardRY}deg)`;
-        card.style.transition = 'box-shadow 0.3s';
-
-        // Background blobs drift toward mouse (different speeds for depth)
-        bpX += (mouseX * 30 - bpX) * 0.04;
-        bpY += (mouseY * 30 - bpY) * 0.04;
-        blobPurple.style.transform = `translate(${bpX}px, ${bpY}px)`;
-
-        btX += (mouseX * -20 - btX) * 0.05;
-        btY += (mouseY * -20 - btY) * 0.05;
-        blobTeal.style.transform = `translate(${btX}px, ${btY}px)`;
-
-        bkX += (mouseX * 18 - bkX) * 0.035;
-        bkY += (mouseY * 18 - bkY) * 0.035;
-        blobPink.style.transform = `translate(${bkX}px, ${bkY}px)`;
-
-        requestAnimationFrame(parallaxLoop);
-    })();
-
-    /* ══════════════════════════════════════
-       2. TYPING EFFECT on subtitle
-    ══════════════════════════════════════ */
-    const phrases = [
-        'Begin your journey with us.',
-        'Fill in your details to register.',
-        'Join the Ignite community today.',
-        'Your future starts here.'
-    ];
-    let pi = 0, ci = 0, deleting = false, pause = 0;
-    const typedEl = document.getElementById('typed-sub');
-
-    function type() {
-        const phrase = phrases[pi];
-        if (pause > 0) { pause--; setTimeout(type, 50); return; }
-        if (!deleting) {
-            typedEl.textContent = phrase.slice(0, ++ci);
-            if (ci === phrase.length) { deleting = true; pause = 40; }
-            setTimeout(type, 55);
-        } else {
-            typedEl.textContent = phrase.slice(0, --ci);
-            if (ci === 0) { deleting = false; pi = (pi+1) % phrases.length; pause = 8; }
-            setTimeout(type, 28);
-        }
-    }
-    setTimeout(type, 900);
-
-    /* ══════════════════════════════════════
-       3. PROGRESS BAR (tracks filled fields)
-    ══════════════════════════════════════ */
-    const progressBar = document.getElementById('progress-bar');
-    const allFields = ['name','email','roll_number','department','interested_domains','events'];
-
-    function updateProgress() {
-        const filled = allFields.filter(id => {
-            const el = document.getElementById(id);
-            return el && el.value.trim() !== '';
-        }).length;
-        progressBar.style.width = (filled / allFields.length * 100) + '%';
-    }
-
-    allFields.forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.addEventListener('input', updateProgress);
-        if (el) el.addEventListener('change', updateProgress);
-    });
-
-    /* ══════════════════════════════════════
-       4. RIPPLE EFFECT on button
-    ══════════════════════════════════════ */
-    document.getElementById('submit-btn').addEventListener('mousedown', function(e) {
-        const btn = this;
-        const circle = document.createElement('span');
-        const diameter = Math.max(btn.clientWidth, btn.clientHeight);
-        const rect = btn.getBoundingClientRect();
-        circle.classList.add('ripple');
-        circle.style.width = circle.style.height = diameter + 'px';
-        circle.style.left = (e.clientX - rect.left - diameter/2) + 'px';
-        circle.style.top  = (e.clientY - rect.top  - diameter/2) + 'px';
-        btn.querySelector('.ripple')?.remove();
-        btn.appendChild(circle);
-    });
-
-    /* ══════════════════════════════════════
-       5. VALIDATION HELPERS
-    ══════════════════════════════════════ */
-    const dept = document.getElementById('department');
-    dept.addEventListener('change', () => dept.classList.toggle('has-value', !!dept.value));
-
-    function setValid(fId, hId, msg) {
-        const f = document.getElementById(fId), h = document.getElementById(hId);
-        f.classList.remove('has-error'); f.classList.add('has-success');
-        h.textContent = msg;
-        const inp = f.querySelector('input,select');
-        if (inp) { inp.classList.remove('invalid'); inp.classList.add('valid'); }
-    }
-    function setError(fId, hId, msg) {
-        const f = document.getElementById(fId), h = document.getElementById(hId);
-        f.classList.remove('has-success'); f.classList.add('has-error');
-        h.textContent = msg;
-        const inp = f.querySelector('input,select');
-        if (inp) { inp.classList.remove('valid'); inp.classList.add('invalid'); }
-    }
-    function clearState(fId) {
-        const f = document.getElementById(fId);
-        f.classList.remove('has-error','has-success');
-        const inp = f.querySelector('input,select');
-        if (inp) inp.classList.remove('valid','invalid');
-    }
-
-    document.getElementById('name').addEventListener('input', function() {
-        if (!this.value.trim()) clearState('f-name');
-        else if (this.value.trim().length < 2) setError('f-name','hint-name','Enter your full name.');
-        else setValid('f-name','hint-name','✓ Looks good!');
-        updateProgress();
-    });
-
-    document.getElementById('email').addEventListener('input', function() {
-        if (!this.value.trim()) { clearState('f-email'); return; }
-        /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.value)
-            ? setValid('f-email','hint-email','✓ Valid email.')
-            : setError('f-email','hint-email','Enter a valid email address.');
-        updateProgress();
-    });
-
-    document.getElementById('roll_number').addEventListener('input', function() {
-        this.value = this.value.replace(/\D/g,'');
-        if (!this.value) { clearState('f-roll'); return; }
-        /^\d{8}$/.test(this.value)
-            ? setValid('f-roll','hint-roll','✓ 8-digit roll number.')
-            : setError('f-roll','hint-roll',`${this.value.length}/8 digits entered.`);
-        updateProgress();
-    });
-
-    dept.addEventListener('change', function() {
-        this.value ? setValid('f-dept','hint-dept','') : setError('f-dept','hint-dept','Select a department.');
-        updateProgress();
-    });
-
-    /* ══════════════════════════════════════
-       6. SUBMIT with loading animation
-    ══════════════════════════════════════ */
-    document.getElementById('reg-form').addEventListener('submit', function(e) {
-        let valid = true;
-        const checks = [
-            {id:'name',               fId:'f-name',    hId:'hint-name',    msg:'Full name is required.'},
-            {id:'email',              fId:'f-email',   hId:'hint-email',   msg:'Valid email is required.'},
-            {id:'roll_number',        fId:'f-roll',    hId:'hint-roll',    msg:'8-digit roll number required.'},
-            {id:'interested_domains', fId:'f-domains', hId:'hint-domains', msg:'Enter your interested domains.'},
-            {id:'events',             fId:'f-events',  hId:'hint-events',  msg:'Enter events of interest.'},
-        ];
-        checks.forEach(c => {
-            const el = document.getElementById(c.id);
-            if (!el.value.trim()) { setError(c.fId,c.hId,c.msg); if(valid){el.focus();valid=false;} }
+        document.addEventListener('mousemove', e => {
+            mouseX = (e.clientX / window.innerWidth - 0.5) * 2;  // -1 to 1
+            mouseY = (e.clientY / window.innerHeight - 0.5) * 2;  // -1 to 1
         });
-        if (!dept.value) { setError('f-dept','hint-dept','Please select a department.'); valid=false; }
-        if (!/^\d{8}$/.test(document.getElementById('roll_number').value)) {
-            setError('f-roll','hint-roll','Must be exactly 8 digits.'); valid=false;
-        }
-        if (!valid) { e.preventDefault(); return; }
 
-        progressBar.style.width = '100%';
-        progressBar.style.transition = 'width 0.6s ease';
-        const btn = document.getElementById('submit-btn');
-        btn.innerHTML = '<span style="display:inline-flex;align-items:center;gap:8px"><span class="spin">⟳</span> Submitting…</span>';
-        btn.disabled = true;
-        btn.style.opacity = '0.85';
-    });
+        (function parallaxLoop() {
+            // Card subtle tilt toward mouse
+            cardRX += (mouseY * -6 - cardRX) * 0.06;
+            cardRY += (mouseX * 6 - cardRY) * 0.06;
+            card.style.transform = `perspective(1000px) rotateX(${cardRX}deg) rotateY(${cardRY}deg)`;
+            card.style.transition = 'box-shadow 0.3s';
+
+            // Background blobs drift toward mouse (different speeds for depth)
+            bpX += (mouseX * 30 - bpX) * 0.04;
+            bpY += (mouseY * 30 - bpY) * 0.04;
+            blobPurple.style.transform = `translate(${bpX}px, ${bpY}px)`;
+
+            btX += (mouseX * -20 - btX) * 0.05;
+            btY += (mouseY * -20 - btY) * 0.05;
+            blobTeal.style.transform = `translate(${btX}px, ${btY}px)`;
+
+            bkX += (mouseX * 18 - bkX) * 0.035;
+            bkY += (mouseY * 18 - bkY) * 0.035;
+            blobPink.style.transform = `translate(${bkX}px, ${bkY}px)`;
+
+            requestAnimationFrame(parallaxLoop);
+        })();
+
+        /* ══════════════════════════════════════
+           2. TYPING EFFECT on subtitle
+        ══════════════════════════════════════ */
+        const phrases = [
+            'Begin your journey with us.',
+            'Fill in your details to register.',
+            'Join the Ignite community today.',
+            'Your future starts here.'
+        ];
+        let pi = 0, ci = 0, deleting = false, pause = 0;
+        const typedEl = document.getElementById('typed-sub');
+
+        function type() {
+            const phrase = phrases[pi];
+            if (pause > 0) { pause--; setTimeout(type, 50); return; }
+            if (!deleting) {
+                typedEl.textContent = phrase.slice(0, ++ci);
+                if (ci === phrase.length) { deleting = true; pause = 40; }
+                setTimeout(type, 55);
+            } else {
+                typedEl.textContent = phrase.slice(0, --ci);
+                if (ci === 0) { deleting = false; pi = (pi + 1) % phrases.length; pause = 8; }
+                setTimeout(type, 28);
+            }
+        }
+        setTimeout(type, 900);
+
+        /* ══════════════════════════════════════
+           3. PROGRESS BAR (tracks filled fields)
+        ══════════════════════════════════════ */
+        const progressBar = document.getElementById('progress-bar');
+        const allFields = ['name', 'email', 'roll_number', 'department', 'interested_domains', 'events'];
+
+        function updateProgress() {
+            const filled = allFields.filter(id => {
+                const el = document.getElementById(id);
+                return el && el.value.trim() !== '';
+            }).length;
+            progressBar.style.width = (filled / allFields.length * 100) + '%';
+        }
+
+        allFields.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.addEventListener('input', updateProgress);
+            if (el) el.addEventListener('change', updateProgress);
+        });
+
+        /* ══════════════════════════════════════
+           4. RIPPLE EFFECT on button
+        ══════════════════════════════════════ */
+        document.getElementById('submit-btn').addEventListener('mousedown', function (e) {
+            const btn = this;
+            const circle = document.createElement('span');
+            const diameter = Math.max(btn.clientWidth, btn.clientHeight);
+            const rect = btn.getBoundingClientRect();
+            circle.classList.add('ripple');
+            circle.style.width = circle.style.height = diameter + 'px';
+            circle.style.left = (e.clientX - rect.left - diameter / 2) + 'px';
+            circle.style.top = (e.clientY - rect.top - diameter / 2) + 'px';
+            btn.querySelector('.ripple')?.remove();
+            btn.appendChild(circle);
+        });
+
+        /* ══════════════════════════════════════
+           5. VALIDATION HELPERS
+        ══════════════════════════════════════ */
+        const dept = document.getElementById('department');
+        dept.addEventListener('change', () => dept.classList.toggle('has-value', !!dept.value));
+
+        function setValid(fId, hId, msg) {
+            const f = document.getElementById(fId), h = document.getElementById(hId);
+            f.classList.remove('has-error'); f.classList.add('has-success');
+            h.textContent = msg;
+            const inp = f.querySelector('input,select');
+            if (inp) { inp.classList.remove('invalid'); inp.classList.add('valid'); }
+        }
+        function setError(fId, hId, msg) {
+            const f = document.getElementById(fId), h = document.getElementById(hId);
+            f.classList.remove('has-success'); f.classList.add('has-error');
+            h.textContent = msg;
+            const inp = f.querySelector('input,select');
+            if (inp) { inp.classList.remove('valid'); inp.classList.add('invalid'); }
+        }
+        function clearState(fId) {
+            const f = document.getElementById(fId);
+            f.classList.remove('has-error', 'has-success');
+            const inp = f.querySelector('input,select');
+            if (inp) inp.classList.remove('valid', 'invalid');
+        }
+
+        document.getElementById('name').addEventListener('input', function () {
+            if (!this.value.trim()) clearState('f-name');
+            else if (this.value.trim().length < 2) setError('f-name', 'hint-name', 'Enter your full name.');
+            else setValid('f-name', 'hint-name', '✓ Looks good!');
+            updateProgress();
+        });
+
+        document.getElementById('email').addEventListener('input', function () {
+            if (!this.value.trim()) { clearState('f-email'); return; }
+            /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.value)
+                ? setValid('f-email', 'hint-email', '✓ Valid email.')
+                : setError('f-email', 'hint-email', 'Enter a valid email address.');
+            updateProgress();
+        });
+
+        document.getElementById('roll_number').addEventListener('input', function () {
+            this.value = this.value.replace(/\D/g, '');
+            if (!this.value) { clearState('f-roll'); return; }
+            /^\d{8}$/.test(this.value)
+                ? setValid('f-roll', 'hint-roll', '✓ 8-digit roll number.')
+                : setError('f-roll', 'hint-roll', `${this.value.length}/8 digits entered.`);
+            updateProgress();
+        });
+
+        dept.addEventListener('change', function () {
+            this.value ? setValid('f-dept', 'hint-dept', '') : setError('f-dept', 'hint-dept', 'Select a department.');
+            updateProgress();
+        });
+
+        /* ══════════════════════════════════════
+           6. SUBMIT with loading animation
+        ══════════════════════════════════════ */
+        document.getElementById('reg-form').addEventListener('submit', function (e) {
+            let valid = true;
+            const checks = [
+                { id: 'name', fId: 'f-name', hId: 'hint-name', msg: 'Full name is required.' },
+                { id: 'email', fId: 'f-email', hId: 'hint-email', msg: 'Valid email is required.' },
+                { id: 'roll_number', fId: 'f-roll', hId: 'hint-roll', msg: '8-digit roll number required.' },
+                { id: 'interested_domains', fId: 'f-domains', hId: 'hint-domains', msg: 'Enter your interested domains.' },
+                { id: 'events', fId: 'f-events', hId: 'hint-events', msg: 'Enter events of interest.' },
+            ];
+            checks.forEach(c => {
+                const el = document.getElementById(c.id);
+                if (!el.value.trim()) { setError(c.fId, c.hId, c.msg); if (valid) { el.focus(); valid = false; } }
+            });
+            if (!dept.value) { setError('f-dept', 'hint-dept', 'Please select a department.'); valid = false; }
+            if (!/^\d{8}$/.test(document.getElementById('roll_number').value)) {
+                setError('f-roll', 'hint-roll', 'Must be exactly 8 digits.'); valid = false;
+            }
+            if (!valid) { e.preventDefault(); return; }
+
+            progressBar.style.width = '100%';
+            progressBar.style.transition = 'width 0.6s ease';
+            const btn = document.getElementById('submit-btn');
+            btn.innerHTML = '<span style="display:inline-flex;align-items:center;gap:8px"><span class="spin">⟳</span> Submitting…</span>';
+            btn.disabled = true;
+            btn.style.opacity = '0.85';
+        });
     </script>
 
     <style>
-    .spin { display:inline-block; animation: spinAnim 0.8s linear infinite; }
-    @keyframes spinAnim { to { transform: rotate(360deg); } }
+        .spin {
+            display: inline-block;
+            animation: spinAnim 0.8s linear infinite;
+        }
+
+        @keyframes spinAnim {
+            to {
+                transform: rotate(360deg);
+            }
+        }
     </style>
 
 </body>
+
 </html>
