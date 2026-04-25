@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard — Student Portal</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
+
 <body>
     <div class="mesh-bg">
         <div class="mesh-blob blob-purple"></div>
@@ -37,11 +40,11 @@
 
                 <!-- Flash messages -->
                 {% with messages = get_flashed_messages(with_categories=true) %}
-                  {% if messages %}
-                    {% for category, message in messages %}
-                      <div class="flash flash-{{ category }}" style="margin-bottom:1.2rem;">{{ message }}</div>
-                    {% endfor %}
-                  {% endif %}
+                {% if messages %}
+                {% for category, message in messages %}
+                <div class="flash flash-{{ category }}" style="margin-bottom:1.2rem;">{{ message }}</div>
+                {% endfor %}
+                {% endif %}
                 {% endwith %}
 
                 <!-- Stats -->
@@ -51,23 +54,28 @@
                         <div class="stat-lbl">Total</div>
                     </div>
                     <div class="stat-box">
-                        <div class="stat-num">{{ students | selectattr('department','equalto','cse') | list | length }}</div>
+                        <div class="stat-num">{{ students | selectattr('department','equalto','cse') | list | length }}
+                        </div>
                         <div class="stat-lbl">CSE</div>
                     </div>
                     <div class="stat-box">
-                        <div class="stat-num">{{ students | selectattr('department','equalto','ece') | list | length }}</div>
+                        <div class="stat-num">{{ students | selectattr('department','equalto','ece') | list | length }}
+                        </div>
                         <div class="stat-lbl">ECE</div>
                     </div>
                     <div class="stat-box">
-                        <div class="stat-num">{{ students | selectattr('department','equalto','eee') | list | length }}</div>
+                        <div class="stat-num">{{ students | selectattr('department','equalto','eee') | list | length }}
+                        </div>
                         <div class="stat-lbl">EEE</div>
                     </div>
                     <div class="stat-box">
-                        <div class="stat-num">{{ students | selectattr('department','equalto','mech') | list | length }}</div>
+                        <div class="stat-num">{{ students | selectattr('department','equalto','mech') | list | length }}
+                        </div>
                         <div class="stat-lbl">Mech</div>
                     </div>
                     <div class="stat-box">
-                        <div class="stat-num">{{ students | selectattr('department','equalto','civil') | list | length }}</div>
+                        <div class="stat-num">{{ students | selectattr('department','equalto','civil') | list | length
+                            }}</div>
                         <div class="stat-lbl">Civil</div>
                     </div>
                 </div>
@@ -76,17 +84,17 @@
                 <form method="GET" action="/admin" id="search-form">
                     <div class="search-bar">
                         <input type="text" name="q" id="search-input"
-                               placeholder="Search by name, roll number or email…"
-                               value="{{ search }}" autocomplete="off">
+                            placeholder="Search by name, roll number or email…" value="{{ search }}" autocomplete="off">
                         <select name="dept" id="dept-filter" class="{{ 'has-value' if dept_filter else '' }}">
                             <option value="">All Departments</option>
-                            <option value="cse"              {{ 'selected' if dept_filter=='cse' }}>CSE</option>
-                            <option value="cse self supporting" {{ 'selected' if dept_filter=='cse self supporting' }}>CSE Self Supporting</option>
-                            <option value="ece"              {{ 'selected' if dept_filter=='ece' }}>ECE</option>
-                            <option value="eee"              {{ 'selected' if dept_filter=='eee' }}>EEE</option>
-                            <option value="civil"            {{ 'selected' if dept_filter=='civil' }}>Civil</option>
-                            <option value="mech"             {{ 'selected' if dept_filter=='mech' }}>Mech</option>
-                            <option value="chem"             {{ 'selected' if dept_filter=='chem' }}>Chem</option>
+                            <option value="cse" {{ 'selected' if dept_filter=='cse' }}>CSE</option>
+                            <option value="cse self supporting" {{ 'selected' if dept_filter=='cse self supporting' }}>
+                                CSE Self Supporting</option>
+                            <option value="ece" {{ 'selected' if dept_filter=='ece' }}>ECE</option>
+                            <option value="eee" {{ 'selected' if dept_filter=='eee' }}>EEE</option>
+                            <option value="civil" {{ 'selected' if dept_filter=='civil' }}>Civil</option>
+                            <option value="mech" {{ 'selected' if dept_filter=='mech' }}>Mech</option>
+                            <option value="chem" {{ 'selected' if dept_filter=='chem' }}>Chem</option>
                         </select>
                         <button type="submit">Search</button>
                         {% if search or dept_filter %}
@@ -97,7 +105,7 @@
 
                 {% if search or dept_filter %}
                 <p style="color:var(--muted); font-size:0.82rem; margin-bottom:1rem;">
-                    Showing {{ students | length }} result{{ 's' if students|length != 1 }} 
+                    Showing {{ students | length }} result{{ 's' if students|length != 1 }}
                     {% if search %}for "<strong style="color:#c4b5fd;">{{ search }}</strong>"{% endif %}
                     {% if dept_filter %}in <strong style="color:#c4b5fd;">{{ dept_filter | upper }}</strong>{% endif %}
                 </p>
@@ -129,7 +137,8 @@
                                 <td style="color:var(--muted);font-size:0.83rem;">{{ student.interested_domains }}</td>
                                 <td style="color:var(--muted);font-size:0.83rem;">{{ student.events }}</td>
                                 <td>
-                                    <form method="POST" action="/admin/delete/{{ student.id }}" id="del-{{ student.id }}">
+                                    <form method="POST" action="/admin/delete/{{ student.id }}"
+                                        id="del-{{ student.id }}">
                                         <button type="button" class="btn-delete"
                                             onclick="confirmDelete({{ student.id }}, '{{ student.name }}')"
                                             title="Delete {{ student.name }}">
@@ -168,7 +177,8 @@
             <p id="del-msg" style="color:#94a3b8; font-size:0.9rem; margin-bottom:1.5rem;"></p>
             <div style="display:flex; gap:0.75rem;">
                 <button onclick="closeModal()" class="btn-outline" style="flex:1;">Cancel</button>
-                <button id="del-confirm-btn" onclick="submitDelete()" class="btn-outline btn-danger" style="flex:1;">Yes, Delete</button>
+                <button id="del-confirm-btn" onclick="submitDelete()" class="btn-outline btn-danger"
+                    style="flex:1;">Yes, Delete</button>
             </div>
         </div>
     </div>
@@ -180,7 +190,8 @@
         <div style="background:#1e293b; border:1px solid rgba(248,113,113,0.4);
             border-radius:18px; padding:2rem 2.5rem; max-width:420px; width:90%;
             box-shadow:0 25px 60px rgba(0,0,0,0.6);">
-            <h3 style="font-size:1.2rem; font-weight:700; margin-bottom:0.5rem; color:#f87171;">⚠ Delete ALL Records?</h3>
+            <h3 style="font-size:1.2rem; font-weight:700; margin-bottom:0.5rem; color:#f87171;">⚠ Delete ALL Records?
+            </h3>
             <p style="color:#94a3b8; font-size:0.9rem; margin-bottom:1.5rem;">
                 This will permanently delete <strong style="color:#f8fafc;">all student registrations</strong>.
                 This action cannot be undone.
@@ -195,53 +206,54 @@
     </div>
 
     <script>
-    let pendingDeleteId = null;
+        let pendingDeleteId = null;
 
-    function confirmDelete(id, name) {
-        pendingDeleteId = id;
-        document.getElementById('del-msg').textContent =
-            `Are you sure you want to delete "${name}"? This cannot be undone.`;
-        const modal = document.getElementById('del-modal');
-        modal.style.display = 'flex';
-    }
+        function confirmDelete(id, name) {
+            pendingDeleteId = id;
+            document.getElementById('del-msg').textContent =
+                `Are you sure you want to delete "${name}"? This cannot be undone.`;
+            const modal = document.getElementById('del-modal');
+            modal.style.display = 'flex';
+        }
 
-    function submitDelete() {
-        if (pendingDeleteId) document.getElementById('del-' + pendingDeleteId).submit();
-    }
+        function submitDelete() {
+            if (pendingDeleteId) document.getElementById('del-' + pendingDeleteId).submit();
+        }
 
-    function closeModal() {
-        document.getElementById('del-modal').style.display = 'none';
-        pendingDeleteId = null;
-    }
+        function closeModal() {
+            document.getElementById('del-modal').style.display = 'none';
+            pendingDeleteId = null;
+        }
 
-    function confirmDeleteAll() {
-        document.getElementById('del-all-modal').style.display = 'flex';
-    }
+        function confirmDeleteAll() {
+            document.getElementById('del-all-modal').style.display = 'flex';
+        }
 
-    function closeAllModal() {
-        document.getElementById('del-all-modal').style.display = 'none';
-    }
+        function closeAllModal() {
+            document.getElementById('del-all-modal').style.display = 'none';
+        }
 
-    /* Close modals on backdrop click */
-    document.getElementById('del-modal').addEventListener('click', function(e) {
-        if (e.target === this) closeModal();
-    });
-    document.getElementById('del-all-modal').addEventListener('click', function(e) {
-        if (e.target === this) closeAllModal();
-    });
+        /* Close modals on backdrop click */
+        document.getElementById('del-modal').addEventListener('click', function (e) {
+            if (e.target === this) closeModal();
+        });
+        document.getElementById('del-all-modal').addEventListener('click', function (e) {
+            if (e.target === this) closeAllModal();
+        });
 
-    /* Live search — submit on department change */
-    document.getElementById('dept-filter').addEventListener('change', function() {
-        this.classList.toggle('has-value', !!this.value);
-        document.getElementById('search-form').submit();
-    });
+        /* Live search — submit on department change */
+        document.getElementById('dept-filter').addEventListener('change', function () {
+            this.classList.toggle('has-value', !!this.value);
+            document.getElementById('search-form').submit();
+        });
 
-    /* Live search on typing (debounced) */
-    let timer;
-    document.getElementById('search-input').addEventListener('input', function() {
-        clearTimeout(timer);
-        timer = setTimeout(() => document.getElementById('search-form').submit(), 400);
-    });
+        /* Live search on typing (debounced) */
+        let timer;
+        document.getElementById('search-input').addEventListener('input', function () {
+            clearTimeout(timer);
+            timer = setTimeout(() => document.getElementById('search-form').submit(), 400);
+        });
     </script>
 </body>
+
 </html>
