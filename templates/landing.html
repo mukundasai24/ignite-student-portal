@@ -13,7 +13,7 @@
         html, body {
             width: 100%; height: 100%;
             font-family: 'Outfit', sans-serif;
-            background: #020617;   /* slate-950 */
+            background: #0f172a;   /* matched portal dark bg */
             color: #fff;
             overflow: hidden;
         }
@@ -46,9 +46,9 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            background: rgba(99,102,241,0.15);
-            border: 1px solid rgba(99,102,241,0.35);
-            color: #a5b4fc;
+            background: rgba(139,92,246,0.12);
+            border: 1px solid rgba(139,92,246,0.35);
+            color: #c4b5fd;
             font-size: 0.68rem;
             font-weight: 700;
             letter-spacing: 0.2em;
@@ -63,7 +63,7 @@
         .brand-dot {
             width: 6px; height: 6px;
             border-radius: 50%;
-            background: #818cf8;
+            background: #8b5cf6;
             animation: blink 1.8s ease-in-out infinite;
         }
 
@@ -105,37 +105,37 @@
             animation: fadeIn 1s ease 1.4s forwards;
         }
 
-        /* Indigo gradient lines */
-        .gl-indigo-blur {
+        /* Purple gradient lines */
+        .gl-purple-blur {
             position: absolute;
             left: 50%; top: 0;
             transform: translateX(-50%);
             width: 55%; height: 2px;
-            background: linear-gradient(90deg, transparent, #6366f1, transparent);
+            background: linear-gradient(90deg, transparent, #8b5cf6, transparent);
             filter: blur(2px);
         }
-        .gl-indigo {
+        .gl-purple {
             position: absolute;
             left: 50%; top: 0;
             transform: translateX(-50%);
             width: 55%; height: 1px;
-            background: linear-gradient(90deg, transparent, #6366f1, transparent);
+            background: linear-gradient(90deg, transparent, #8b5cf6, transparent);
         }
-        /* Sky gradient lines */
-        .gl-sky-blur {
+        /* Pink gradient lines */
+        .gl-pink-blur {
             position: absolute;
             left: 50%; top: 0;
             transform: translateX(-50%);
             width: 22%; height: 5px;
-            background: linear-gradient(90deg, transparent, #38bdf8, transparent);
+            background: linear-gradient(90deg, transparent, #ec4899, transparent);
             filter: blur(3px);
         }
-        .gl-sky {
+        .gl-pink {
             position: absolute;
             left: 50%; top: 0;
             transform: translateX(-50%);
             width: 22%; height: 1px;
-            background: linear-gradient(90deg, transparent, #38bdf8, transparent);
+            background: linear-gradient(90deg, transparent, #ec4899, transparent);
         }
 
         /* Inline sparkle canvas */
@@ -149,7 +149,7 @@
         .sparkle-mask {
             position: absolute;
             inset: 0;
-            background: radial-gradient(ellipse 360px 120px at 50% 0%, transparent 25%, #020617 75%);
+            background: radial-gradient(ellipse 360px 120px at 50% 0%, transparent 25%, #0f172a 75%);
         }
 
         /* ── SUBTITLE ── */
@@ -291,10 +291,10 @@
 
         <!-- Gradient lines + dense sparkle strip under title -->
         <div class="sparkle-line-wrap">
-            <div class="gl-indigo-blur"></div>
-            <div class="gl-indigo"></div>
-            <div class="gl-sky-blur"></div>
-            <div class="gl-sky"></div>
+            <div class="gl-purple-blur"></div>
+            <div class="gl-purple"></div>
+            <div class="gl-pink-blur"></div>
+            <div class="gl-pink"></div>
             <canvas id="line-sparkle-canvas"></canvas>
             <div class="sparkle-mask"></div>
         </div>
@@ -353,13 +353,13 @@
             H = canvas.height = window.innerHeight;
         }
 
-        // Purple/indigo/white particle colours matching the portal palette
+        // Cyberpunk particle colours matching the portal palette
         const COLORS = [
             [255,255,255],
-            [165,180,252],   // indigo-300
-            [196,181,253],   // violet-300
-            [56,189,248],    // sky-400
-            [167,139,250],   // violet-400
+            [139,92,246],    // purple
+            [236,72,153],    // pink
+            [45,212,191],    // teal
+            [196,181,253],   // light purple
         ];
 
         function mkSpark() {
