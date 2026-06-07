@@ -13,7 +13,7 @@
         html, body {
             width: 100%; height: 100%;
             font-family: 'Outfit', sans-serif;
-            background: #0f172a;   /* matched portal dark bg */
+            background: #020617;   /* very dark slate */
             color: #fff;
             overflow: hidden;
         }
@@ -46,9 +46,9 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            background: rgba(139,92,246,0.12);
-            border: 1px solid rgba(139,92,246,0.35);
-            color: #c4b5fd;
+            background: rgba(30,41,59,0.3);
+            border: 1px solid rgba(148,163,184,0.15);
+            color: #cbd5e1;
             font-size: 0.68rem;
             font-weight: 700;
             letter-spacing: 0.2em;
@@ -63,7 +63,7 @@
         .brand-dot {
             width: 6px; height: 6px;
             border-radius: 50%;
-            background: #8b5cf6;
+            background: #38bdf8;
             animation: blink 1.8s ease-in-out infinite;
         }
 
@@ -105,37 +105,37 @@
             animation: fadeIn 1s ease 1.4s forwards;
         }
 
-        /* Purple gradient lines */
-        .gl-purple-blur {
+        /* Indigo gradient lines */
+        .gl-indigo-blur {
             position: absolute;
             left: 50%; top: 0;
             transform: translateX(-50%);
             width: 55%; height: 2px;
-            background: linear-gradient(90deg, transparent, #8b5cf6, transparent);
+            background: linear-gradient(90deg, transparent, #4f46e5, transparent);
             filter: blur(2px);
         }
-        .gl-purple {
+        .gl-indigo {
             position: absolute;
             left: 50%; top: 0;
             transform: translateX(-50%);
             width: 55%; height: 1px;
-            background: linear-gradient(90deg, transparent, #8b5cf6, transparent);
+            background: linear-gradient(90deg, transparent, #4f46e5, transparent);
         }
-        /* Pink gradient lines */
-        .gl-pink-blur {
+        /* Slate/Sky gradient lines */
+        .gl-sky-blur {
             position: absolute;
             left: 50%; top: 0;
             transform: translateX(-50%);
             width: 22%; height: 5px;
-            background: linear-gradient(90deg, transparent, #ec4899, transparent);
+            background: linear-gradient(90deg, transparent, #38bdf8, transparent);
             filter: blur(3px);
         }
-        .gl-pink {
+        .gl-sky {
             position: absolute;
             left: 50%; top: 0;
             transform: translateX(-50%);
             width: 22%; height: 1px;
-            background: linear-gradient(90deg, transparent, #ec4899, transparent);
+            background: linear-gradient(90deg, transparent, #38bdf8, transparent);
         }
 
         /* Inline sparkle canvas */
@@ -149,7 +149,7 @@
         .sparkle-mask {
             position: absolute;
             inset: 0;
-            background: radial-gradient(ellipse 360px 120px at 50% 0%, transparent 25%, #0f172a 75%);
+            background: radial-gradient(ellipse 360px 120px at 50% 0%, transparent 25%, #020617 75%);
         }
 
         /* ── SUBTITLE ── */
@@ -171,15 +171,15 @@
 
         .cta-outer {
             display: inline-block;
-            background: linear-gradient(135deg, rgba(99,102,241,0.5), rgba(139,92,246,0.3), rgba(236,72,153,0.25));
+            background: linear-gradient(135deg, rgba(79,70,229,0.4), rgba(56,189,248,0.2), rgba(15,23,42,0.8));
             padding: 1.5px;
             border-radius: 20px;
-            box-shadow: 0 0 35px rgba(99,102,241,0.3), 0 0 80px rgba(99,102,241,0.12);
+            box-shadow: 0 0 35px rgba(79,70,229,0.15), 0 0 80px rgba(56,189,248,0.08);
             transition: box-shadow 0.35s ease;
         }
 
         .cta-outer:hover {
-            box-shadow: 0 0 55px rgba(99,102,241,0.55), 0 0 100px rgba(139,92,246,0.2);
+            box-shadow: 0 0 55px rgba(79,70,229,0.3), 0 0 100px rgba(56,189,248,0.15);
         }
 
         .cta-btn {
@@ -291,10 +291,10 @@
 
         <!-- Gradient lines + dense sparkle strip under title -->
         <div class="sparkle-line-wrap">
-            <div class="gl-purple-blur"></div>
-            <div class="gl-purple"></div>
-            <div class="gl-pink-blur"></div>
-            <div class="gl-pink"></div>
+            <div class="gl-indigo-blur"></div>
+            <div class="gl-indigo"></div>
+            <div class="gl-sky-blur"></div>
+            <div class="gl-sky"></div>
             <canvas id="line-sparkle-canvas"></canvas>
             <div class="sparkle-mask"></div>
         </div>
@@ -353,13 +353,13 @@
             H = canvas.height = window.innerHeight;
         }
 
-        // Cyberpunk particle colours matching the portal palette
+        // Dark theme particle colours (white/silver/indigo)
         const COLORS = [
             [255,255,255],
-            [139,92,246],    // purple
-            [236,72,153],    // pink
-            [45,212,191],    // teal
-            [196,181,253],   // light purple
+            [226,232,240],   // slate-200
+            [199,210,254],   // indigo-200
+            [148,163,184],   // slate-400
+            [129,140,248],   // indigo-400
         ];
 
         function mkSpark() {
