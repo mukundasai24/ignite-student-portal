@@ -71,8 +71,24 @@
             animation-delay: 0.94s;
         }
 
+        .fg4 {
+            animation-delay: 1.01s;
+        }
+
+        #f-suggestions {
+            animation-delay: 1.08s;
+        }
+
+        #f-expectations {
+            animation-delay: 1.15s;
+        }
+
+        #f-rating {
+            animation-delay: 1.22s;
+        }
+
         .btn-submit {
-            animation-delay: 1.02s;
+            animation-delay: 1.30s;
         }
 
         /* ── CARD HEADER ANIMATE ── */
@@ -300,6 +316,22 @@
                     <span class="field-hint" id="hint-email"></span>
                 </div>
 
+                <div class="field" id="f-phone">
+                    <div style="position:relative;">
+                        <span style="position:absolute; left:18px; top:50%; transform:translateY(-50%);
+                            font-size:1rem; pointer-events:none; opacity:0.5;">📞</span>
+                        <input type="tel" id="phone_number" name="phone_number"
+                            placeholder="Phone Number (for future contact)"
+                            autocomplete="off" maxlength="15" inputmode="numeric"
+                            style="padding-left: 46px;">
+                    </div>
+                    <span style="display:block; font-size:0.72rem; color:var(--muted);
+                        margin-top:5px; padding-left:2px; opacity:0.8;">
+                        📌 We may contact you about upcoming Ignite Club events, opportunities &amp; updates.
+                    </span>
+                    <span class="field-hint" id="hint-phone"></span>
+                </div>
+
                 <div class="field-group-label fg2">Academic Info</div>
 
                 <div class="field" id="f-dept">
@@ -334,6 +366,87 @@
                     <input type="text" id="events" name="events" placeholder="Events &amp; Workshops of Interest"
                         required>
                     <span class="field-hint" id="hint-events"></span>
+                </div>
+
+                <div class="field-group-label fg4">Ignite Club Feedback <span style="font-size:0.65rem;opacity:0.7;">(Optional)</span></div>
+
+                <div class="field" id="f-suggestions">
+                    <textarea id="suggestions" name="suggestions" rows="3"
+                        placeholder="Share your suggestions for Ignite Club — events, improvements, ideas…"
+                        style="width:100%; background:var(--input-bg); border:1px solid var(--border);
+                        border-radius:var(--radius-sm); padding:15px 18px; color:var(--text);
+                        font-family:'Outfit',sans-serif; font-size:0.95rem; outline:none; resize:vertical;
+                        transition:border-color var(--t), box-shadow var(--t), background var(--t);"></textarea>
+                </div>
+
+                <div class="field" id="f-expectations">
+                    <textarea id="expectations" name="expectations" rows="3"
+                        placeholder="What do you expect from Ignite Club's future events? (workshops, hackathons, talks…)"
+                        style="width:100%; background:var(--input-bg); border:1px solid var(--border);
+                        border-radius:var(--radius-sm); padding:15px 18px; color:var(--text);
+                        font-family:'Outfit',sans-serif; font-size:0.95rem; outline:none; resize:vertical;
+                        transition:border-color var(--t), box-shadow var(--t), background var(--t);"></textarea>
+                </div>
+
+                <div class="field" id="f-involvement" style="animation-delay:1.15s;">
+                    <p style="font-size:0.78rem; color:var(--muted); margin-bottom:0.8rem;">
+                        Do you have any interest in joining, participating, or volunteering with Ignite Club?
+                    </p>
+                    <div style="display:flex; flex-direction:column; gap:0.6rem;">
+                        {% set options = [
+                            ('joining', '🎓 Joining as a Club Member'),
+                            ('participating', '🎯 Participating in Events & Workshops'),
+                            ('volunteering', '🤝 Volunteering & Helping Organise Events'),
+                            ('all', '🌟 All of the Above — Count Me In!'),
+                            ('not_now', '⏳ Not at this time')
+                        ] %}
+                        {% for val, label in options %}
+                        <label class="involve-option" style="
+                            display:flex; align-items:center; gap:12px;
+                            padding:12px 16px;
+                            background:var(--input-bg);
+                            border:1px solid var(--border);
+                            border-radius:var(--radius-sm);
+                            cursor:pointer;
+                            transition:all 0.2s ease;
+                            font-size:0.9rem;
+                            color:var(--muted);
+                        ">
+                            <input type="radio" name="involvement_interest" value="{{ val }}"
+                                class="involve-radio"
+                                style="display:none;">
+                            <span class="involve-check" style="
+                                width:20px; height:20px; border-radius:50%;
+                                border:2px solid var(--border);
+                                display:flex; align-items:center; justify-content:center;
+                                flex-shrink:0;
+                                transition:all 0.2s ease;
+                                font-size:0.65rem;
+                            "></span>
+                            {{ label }}
+                        </label>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="field" id="f-rating">
+                    <p style="font-size:0.78rem; color:var(--muted); margin-bottom:0.6rem;">
+                        Rate your expectation level for Ignite Club events (1 = Low, 10 = Very High)
+                    </p>
+                    <div id="rating-stars" style="display:flex; gap:8px; flex-wrap:wrap;">
+                        {% for i in range(1, 11) %}
+                        <label style="cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:3px;">
+                            <input type="radio" name="rating" value="{{ i }}"
+                                style="display:none;" class="rating-radio">
+                            <span class="rating-btn" data-val="{{ i }}"
+                                style="width:38px; height:38px; border-radius:10px; border:1px solid var(--border);
+                                background:var(--input-bg); color:var(--muted); display:flex; align-items:center;
+                                justify-content:center; font-size:0.88rem; font-weight:600;
+                                transition:all 0.2s ease; cursor:pointer;">{{ i }}</span>
+                        </label>
+                        {% endfor %}
+                    </div>
+                    <p id="rating-label" style="font-size:0.75rem; color:var(--purple); margin-top:0.5rem; min-height:1.2em;"></p>
                 </div>
 
                 <button type="submit" class="btn-submit" id="submit-btn">
@@ -613,6 +726,16 @@
             updateProgress();
         });
 
+        document.getElementById('phone_number').addEventListener('input', function () {
+            this.value = this.value.replace(/\D/g, '');
+            if (!this.value) { clearState('f-phone'); return; }
+            if (this.value.length === 10) {
+                setValid('f-phone', 'hint-phone', '✓ Valid phone number — we\'ll reach out about Ignite events!');
+            } else {
+                setError('f-phone', 'hint-phone', `${this.value.length}/10 digits entered.`);
+            }
+        });
+
         document.getElementById('roll_number').addEventListener('input', function () {
             this.value = this.value.replace(/\D/g, '');
             if (!this.value) { clearState('f-roll'); return; }
@@ -655,6 +778,88 @@
             btn.innerHTML = '<span style="display:inline-flex;align-items:center;gap:8px"><span class="spin">⟳</span> Submitting…</span>';
             btn.disabled = true;
             btn.style.opacity = '0.85';
+        });
+
+        /* ══════════════════════════════════════
+           7. RATING PICKER
+        ══════════════════════════════════════ */
+        const ratingLabels = {
+            1: '😐 Very Low — Not expecting much.',
+            2: '🙁 Low — Minimal expectations.',
+            3: '😶 Below Average — Hope it improves.',
+            4: '🙂 Slightly hopeful.',
+            5: '😊 Average — Looking forward to it!',
+            6: '🌟 Good — Should be interesting.',
+            7: '✨ High — Expecting quality events.',
+            8: '🚀 Very High — Really excited!',
+            9: '🔥 Excellent — Can\'t wait for this!',
+            10: '💯 Outstanding — Maximum excitement!'
+        };
+
+        document.querySelectorAll('.rating-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const val = parseInt(this.dataset.val);
+                // Select the radio
+                document.querySelectorAll('.rating-radio')[val - 1].checked = true;
+                // Update visual state
+                document.querySelectorAll('.rating-btn').forEach((b, i) => {
+                    if (i < val) {
+                        b.style.background = 'linear-gradient(90deg, #8b5cf6, #ec4899)';
+                        b.style.color = '#fff';
+                        b.style.borderColor = 'transparent';
+                        b.style.transform = 'scale(1.08)';
+                    } else {
+                        b.style.background = 'var(--input-bg)';
+                        b.style.color = 'var(--muted)';
+                        b.style.borderColor = 'var(--border)';
+                        b.style.transform = 'scale(1)';
+                    }
+                });
+                document.getElementById('rating-label').textContent = ratingLabels[val];
+            });
+        });
+
+        /* Textarea focus glow */
+        document.querySelectorAll('textarea').forEach(ta => {
+            ta.addEventListener('focus', () => {
+                ta.style.borderColor = 'rgba(139,92,246,0.7)';
+                ta.style.boxShadow = '0 0 0 3px rgba(139,92,246,0.12)';
+                ta.style.background = 'rgba(139,92,246,0.06)';
+            });
+            ta.addEventListener('blur', () => {
+                ta.style.borderColor = 'var(--border)';
+                ta.style.boxShadow = 'none';
+                ta.style.background = 'var(--input-bg)';
+            });
+        });
+
+        /* ══════════════════════════════════════
+           8. INVOLVEMENT INTEREST SELECTOR
+        ══════════════════════════════════════ */
+        document.querySelectorAll('.involve-option').forEach(label => {
+            label.addEventListener('click', function () {
+                // Reset all
+                document.querySelectorAll('.involve-option').forEach(l => {
+                    l.style.borderColor = 'var(--border)';
+                    l.style.background = 'var(--input-bg)';
+                    l.style.color = 'var(--muted)';
+                    const dot = l.querySelector('.involve-check');
+                    dot.style.background = 'transparent';
+                    dot.style.borderColor = 'var(--border)';
+                    dot.textContent = '';
+                });
+                // Highlight selected
+                this.style.borderColor = 'rgba(139,92,246,0.6)';
+                this.style.background = 'rgba(139,92,246,0.08)';
+                this.style.color = '#c4b5fd';
+                const dot = this.querySelector('.involve-check');
+                dot.style.background = 'linear-gradient(135deg, #8b5cf6, #ec4899)';
+                dot.style.borderColor = 'transparent';
+                dot.textContent = '✓';
+                dot.style.color = '#fff';
+                dot.style.fontSize = '0.7rem';
+                dot.style.fontWeight = '700';
+            });
         });
     </script>
 

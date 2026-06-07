@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ignite Student Portal</title>
+    <meta name="description" content="Join the Ignite Student Club — Register for events, workshops and opportunities.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html, body {
+            width: 100%; height: 100%;
+            font-family: 'Outfit', sans-serif;
+            background: #020617;   /* slate-950 */
+            color: #fff;
+            overflow: hidden;
+        }
+
+        /* ── FULL-SCREEN SPARKLE CANVAS ── */
+        #sparkle-canvas {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        /* ── HERO LAYOUT ── */
+        .hero {
+            position: relative;
+            z-index: 10;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        /* ── BRAND PILL ── */
+        .brand-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(99,102,241,0.15);
+            border: 1px solid rgba(99,102,241,0.35);
+            color: #a5b4fc;
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            border-radius: 50px;
+            padding: 6px 18px;
+            margin-bottom: 1.8rem;
+            opacity: 0;
+            animation: fadeDown 0.7s ease 0.4s forwards;
+        }
+
+        .brand-dot {
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: #818cf8;
+            animation: blink 1.8s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+            0%,100% { opacity:1; } 50% { opacity:0.3; }
+        }
+
+        /* ── TITLE ── */
+        .hero-title {
+            font-size: clamp(2.8rem, 9vw, 7.5rem);
+            font-weight: 900;
+            letter-spacing: -0.035em;
+            line-height: 1.04;
+            margin-bottom: 0;
+        }
+
+        .hero-title .letter {
+            display: inline-block;
+            color: #fff;
+            opacity: 0;
+            transform: translateY(55px);
+            animation: letterUp 0.55s cubic-bezier(0.16,1,0.3,1) forwards;
+        }
+
+        .hero-title .word { display: inline-block; margin-right: 0.2em; }
+        .hero-title .word:last-child { margin-right: 0; }
+
+        @keyframes letterUp {
+            to { opacity:1; transform: translateY(0); }
+        }
+
+        /* ── SPARKLE LINE WRAPPER (under title) ── */
+        .sparkle-line-wrap {
+            position: relative;
+            width: min(640px, 90vw);
+            height: 100px;
+            margin: 0 auto;
+            opacity: 0;
+            animation: fadeIn 1s ease 1.4s forwards;
+        }
+
+        /* Indigo gradient lines */
+        .gl-indigo-blur {
+            position: absolute;
+            left: 50%; top: 0;
+            transform: translateX(-50%);
+            width: 55%; height: 2px;
+            background: linear-gradient(90deg, transparent, #6366f1, transparent);
+            filter: blur(2px);
+        }
+        .gl-indigo {
+            position: absolute;
+            left: 50%; top: 0;
+            transform: translateX(-50%);
+            width: 55%; height: 1px;
+            background: linear-gradient(90deg, transparent, #6366f1, transparent);
+        }
+        /* Sky gradient lines */
+        .gl-sky-blur {
+            position: absolute;
+            left: 50%; top: 0;
+            transform: translateX(-50%);
+            width: 22%; height: 5px;
+            background: linear-gradient(90deg, transparent, #38bdf8, transparent);
+            filter: blur(3px);
+        }
+        .gl-sky {
+            position: absolute;
+            left: 50%; top: 0;
+            transform: translateX(-50%);
+            width: 22%; height: 1px;
+            background: linear-gradient(90deg, transparent, #38bdf8, transparent);
+        }
+
+        /* Inline sparkle canvas */
+        #line-sparkle-canvas {
+            position: absolute;
+            inset: 0;
+            width: 100%; height: 100%;
+        }
+
+        /* Radial mask — fade edges */
+        .sparkle-mask {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse 360px 120px at 50% 0%, transparent 25%, #020617 75%);
+        }
+
+        /* ── SUBTITLE ── */
+        .hero-sub {
+            font-size: clamp(0.9rem, 2.2vw, 1.15rem);
+            color: rgba(148,163,184,0.9);
+            max-width: 480px;
+            line-height: 1.65;
+            margin: 0.6rem auto 2.5rem;
+            opacity: 0;
+            animation: fadeUp 0.8s ease 1.6s forwards;
+        }
+
+        /* ── CTA BUTTON ── */
+        .cta-wrap {
+            opacity: 0;
+            animation: fadeUp 0.7s ease 1.9s forwards;
+        }
+
+        .cta-outer {
+            display: inline-block;
+            background: linear-gradient(135deg, rgba(99,102,241,0.5), rgba(139,92,246,0.3), rgba(236,72,153,0.25));
+            padding: 1.5px;
+            border-radius: 20px;
+            box-shadow: 0 0 35px rgba(99,102,241,0.3), 0 0 80px rgba(99,102,241,0.12);
+            transition: box-shadow 0.35s ease;
+        }
+
+        .cta-outer:hover {
+            box-shadow: 0 0 55px rgba(99,102,241,0.55), 0 0 100px rgba(139,92,246,0.2);
+        }
+
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 42px;
+            border-radius: 18.5px;
+            background: rgba(2,6,23,0.92);
+            border: none;
+            color: #f8fafc;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.25s ease;
+            backdrop-filter: blur(20px);
+            letter-spacing: 0.01em;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* shimmer on button */
+        .cta-btn::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -80%;
+            width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+            transform: skewX(-20deg);
+            animation: shimmer 2.5s ease infinite;
+        }
+
+        @keyframes shimmer {
+            0%   { left: -80%; }
+            60%  { left: 130%; }
+            100% { left: 130%; }
+        }
+
+        .cta-btn:hover { background: rgba(15,23,42,0.97); transform: translateY(-2px); }
+        .cta-btn:active { transform: translateY(0); }
+
+        .cta-arrow {
+            display: inline-block;
+            transition: transform 0.25s ease;
+            opacity: 0.65;
+            font-size: 1.1rem;
+        }
+
+        .cta-btn:hover .cta-arrow {
+            transform: translateX(5px);
+            opacity: 1;
+        }
+
+        /* ── FOOTER HINT ── */
+        .footer-hint {
+            position: fixed;
+            bottom: 1.8rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.72rem;
+            color: rgba(148,163,184,0.4);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            z-index: 10;
+            white-space: nowrap;
+            opacity: 0;
+            animation: fadeUp 0.6s ease 2.4s forwards;
+        }
+
+        /* ── KEYFRAMES ── */
+        @keyframes fadeUp {
+            from { opacity:0; transform:translateY(18px); }
+            to   { opacity:1; transform:translateY(0); }
+        }
+
+        @keyframes fadeDown {
+            from { opacity:0; transform:translateY(-12px); }
+            to   { opacity:1; transform:translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            to { opacity:1; }
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .cta-btn { padding: 14px 30px; font-size: 0.96rem; }
+            .sparkle-line-wrap { height: 70px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Full-page sparkle canvas -->
+    <canvas id="sparkle-canvas"></canvas>
+
+    <main class="hero">
+
+        <!-- Brand pill -->
+        <div class="brand-pill">
+            <span class="brand-dot"></span>
+            Ignite Student Club
+        </div>
+
+        <!-- Title (letters animated in by JS) -->
+        <h1 class="hero-title" id="hero-title"></h1>
+
+        <!-- Gradient lines + dense sparkle strip under title -->
+        <div class="sparkle-line-wrap">
+            <div class="gl-indigo-blur"></div>
+            <div class="gl-indigo"></div>
+            <div class="gl-sky-blur"></div>
+            <div class="gl-sky"></div>
+            <canvas id="line-sparkle-canvas"></canvas>
+            <div class="sparkle-mask"></div>
+        </div>
+
+        <!-- Subtitle -->
+        <p class="hero-sub">
+            Discover events, workshops &amp; opportunities that shape your future.<br>
+            Join the Ignite community today.
+        </p>
+
+        <!-- CTA -->
+        <div class="cta-wrap">
+            <div class="cta-outer">
+                <a href="/register" class="cta-btn" id="cta-link">
+                    <span>Get Started</span>
+                    <span class="cta-arrow">→</span>
+                </a>
+            </div>
+        </div>
+
+    </main>
+
+    <div class="footer-hint">Student Portal &nbsp;·&nbsp; Ignite Your Future</div>
+
+    <script>
+    /* ══════════════════════════════════════════════════════
+       1. TITLE — letter-by-letter spring animation
+    ══════════════════════════════════════════════════════ */
+    const titleEl = document.getElementById('hero-title');
+    const words   = ['Ignite', 'Your', 'Future'];
+    let delay = 0.6;
+
+    words.forEach((word, wi) => {
+        const wSpan = document.createElement('span');
+        wSpan.className = 'word';
+        word.split('').forEach((ch, li) => {
+            const s = document.createElement('span');
+            s.className = 'letter';
+            s.textContent = ch;
+            s.style.animationDelay = (delay + wi * 0.12 + li * 0.038) + 's';
+            wSpan.appendChild(s);
+        });
+        titleEl.appendChild(wSpan);
+    });
+
+    /* ══════════════════════════════════════════════════════
+       2. FULL-PAGE SPARKLES  (tsparticles recreation in canvas)
+    ══════════════════════════════════════════════════════ */
+    (function() {
+        const canvas = document.getElementById('sparkle-canvas');
+        const ctx    = canvas.getContext('2d');
+        let W, H, sparks = [];
+
+        function resize() {
+            W = canvas.width  = window.innerWidth;
+            H = canvas.height = window.innerHeight;
+        }
+
+        // Purple/indigo/white particle colours matching the portal palette
+        const COLORS = [
+            [255,255,255],
+            [165,180,252],   // indigo-300
+            [196,181,253],   // violet-300
+            [56,189,248],    // sky-400
+            [167,139,250],   // violet-400
+        ];
+
+        function mkSpark() {
+            const col = COLORS[Math.floor(Math.random() * COLORS.length)];
+            return {
+                x:      Math.random() * W,
+                y:      Math.random() * H,
+                r:      Math.random() * 1.2 + 0.3,   // 0.3–1.5 px (tsparticles minSize/maxSize)
+                vx:     (Math.random() - 0.5) * 0.55, // slow drift like speed:0.1–1
+                vy:     (Math.random() - 0.5) * 0.55,
+                alpha:  Math.random(),                 // current opacity
+                aDir:   Math.random() > 0.5 ? 1 : -1, // twinkle direction
+                aSpeed: Math.random() * 0.012 + 0.004, // opacity animation speed ~ speed:4
+                col:    col,
+            };
+        }
+
+        function init() {
+            resize();
+            // particleDensity:100 across viewport ≈ proportional to screen area
+            const count = Math.min(Math.floor((W * H) / 9000), 220);
+            sparks = Array.from({ length: count }, mkSpark);
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, W, H);
+            sparks.forEach(s => {
+                // Twinkle (opacity animation, mode:"auto")
+                s.alpha += s.aDir * s.aSpeed;
+                if (s.alpha >= 1) { s.alpha = 1; s.aDir = -1; }
+                if (s.alpha <= 0.05) { s.alpha = 0.05; s.aDir = 1; }
+
+                // Drift
+                s.x += s.vx; s.y += s.vy;
+
+                // Wrap out-of-bounds ("outModes: out")
+                if (s.x < -2)  s.x = W + 2;
+                if (s.x > W+2) s.x = -2;
+                if (s.y < -2)  s.y = H + 2;
+                if (s.y > H+2) s.y = -2;
+
+                // Draw circle particle
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(${s.col[0]},${s.col[1]},${s.col[2]},${s.alpha})`;
+                ctx.fill();
+            });
+            requestAnimationFrame(draw);
+        }
+
+        init();
+        draw();
+        window.addEventListener('resize', () => { init(); });
+
+        // onClick: push 4 new sparkles near click point (tsparticles interactivity onClick push:4)
+        canvas.addEventListener('click', e => {
+            for (let i = 0; i < 6; i++) {
+                const s = mkSpark();
+                s.x = e.clientX + (Math.random()-0.5)*40;
+                s.y = e.clientY + (Math.random()-0.5)*40;
+                s.aSpeed *= 3;
+                sparks.push(s);
+                if (sparks.length > 280) sparks.shift();
+            }
+        });
+    })();
+
+    /* ══════════════════════════════════════════════════════
+       3. DENSE SPARKLE STRIP under title  (particleDensity:1200)
+    ══════════════════════════════════════════════════════ */
+    (function() {
+        const canvas = document.getElementById('line-sparkle-canvas');
+        const ctx    = canvas.getContext('2d');
+        let W, H, sparks = [];
+
+        function resize() {
+            W = canvas.width  = canvas.offsetWidth;
+            H = canvas.height = canvas.offsetHeight;
+        }
+
+        function mkSpark() {
+            return {
+                x:      Math.random() * W,
+                y:      Math.random() * H,
+                r:      Math.random() * 0.5 + 0.2,   // tiny: minSize:0.4 maxSize:1
+                vx:     (Math.random() - 0.5) * 0.3,
+                vy:     (Math.random() - 0.5) * 0.3,
+                alpha:  Math.random(),
+                aDir:   Math.random() > 0.5 ? 1 : -1,
+                aSpeed: Math.random() * 0.015 + 0.006,
+            };
+        }
+
+        function init() {
+            resize();
+            // particleDensity:1200 — very dense
+            const count = Math.floor((W * H) / 18);
+            sparks = Array.from({ length: Math.min(count, 800) }, mkSpark);
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, W, H);
+            sparks.forEach(s => {
+                s.alpha += s.aDir * s.aSpeed;
+                if (s.alpha >= 1)    { s.alpha = 1;    s.aDir = -1; }
+                if (s.alpha <= 0.05) { s.alpha = 0.05; s.aDir =  1; }
+                s.x += s.vx; s.y += s.vy;
+                if (s.x < 0)  s.x = W;
+                if (s.x > W)  s.x = 0;
+                if (s.y < 0)  s.y = H;
+                if (s.y > H)  s.y = 0;
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255,255,255,${s.alpha})`;
+                ctx.fill();
+            });
+            requestAnimationFrame(draw);
+        }
+
+        // Wait for layout to settle before measuring
+        setTimeout(() => { init(); draw(); }, 100);
+        window.addEventListener('resize', init);
+    })();
+    </script>
+
+</body>
+</html>

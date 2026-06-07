@@ -4,14 +4,12 @@ services:
     env: python
     buildCommand: pip install -r requirements.txt
     startCommand: gunicorn app:app
-    disk:
-      name: student-data
-      mountPath: /opt/render/project/src
-      sizeGB: 1
     envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: SECRET_KEY
+        generateValue: true
       - key: ADMIN_USERNAME
         value: studentportal
       - key: ADMIN_PASSWORD
         value: 123rusa123
-      - key: SECRET_KEY
-        generateValue: true

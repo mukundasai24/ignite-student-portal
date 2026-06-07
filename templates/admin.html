@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +9,6 @@
         rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-
 <body>
     <div class="mesh-bg">
         <div class="mesh-blob blob-purple"></div>
@@ -30,7 +28,7 @@
                 </div>
                 <div class="topbar-actions">
                     <a href="/admin/export" class="btn-export">⬇ Export CSV</a>
-                    <a href="/" class="btn-outline">← Registration</a>
+                    <a href="/register" class="btn-outline">← Registration</a>
                     <button onclick="confirmDeleteAll()" class="btn-outline btn-danger">🗑 Delete All</button>
                     <a href="/logout" class="btn-outline btn-danger">Logout</a>
                 </div>
@@ -121,8 +119,13 @@
                                 <th>Department</th>
                                 <th>Roll Number</th>
                                 <th>Email</th>
+                                <th>Phone</th>
                                 <th>Domains</th>
                                 <th>Events</th>
+                                <th>Involvement</th>
+                                <th>Suggestions</th>
+                                <th>Expectations</th>
+                                <th>Rating</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -134,8 +137,29 @@
                                 <td><span class="dept-badge">{{ student.department | upper }}</span></td>
                                 <td class="td-roll">{{ student.roll_number }}</td>
                                 <td class="td-email">{{ student.email }}</td>
+                                <td style="font-family:monospace;font-size:0.82rem;color:#a78bfa;letter-spacing:0.3px;">{{ student.phone_number or '—' }}</td>
                                 <td style="color:var(--muted);font-size:0.83rem;">{{ student.interested_domains }}</td>
                                 <td style="color:var(--muted);font-size:0.83rem;">{{ student.events }}</td>
+                                <td>
+                                    {% if student.involvement_interest %}
+                                    {% set inv_map = {'joining':'🎓 Member','participating':'🎯 Participating','volunteering':'🤝 Volunteering','all':'🌟 All!','not_now':'⏳ Not now'} %}
+                                    <span style="font-size:0.8rem;color:#c4b5fd;">{{ inv_map.get(student.involvement_interest, student.involvement_interest) }}</span>
+                                    {% else %}
+                                    <span style="color:var(--muted);">—</span>
+                                    {% endif %}
+                                </td>
+                                <td style="color:var(--muted);font-size:0.83rem;max-width:180px;">{{ student.suggestions or '—' }}</td>
+                                <td style="color:var(--muted);font-size:0.83rem;max-width:180px;">{{ student.expectations or '—' }}</td>
+                                <td>
+                                    {% if student.rating %}
+                                    <span style="display:inline-flex;align-items:center;justify-content:center;
+                                        width:32px;height:32px;border-radius:8px;
+                                        background:linear-gradient(90deg,#8b5cf6,#ec4899);
+                                        color:#fff;font-weight:700;font-size:0.85rem;">{{ student.rating }}</span>
+                                    {% else %}
+                                    <span style="color:var(--muted);">—</span>
+                                    {% endif %}
+                                </td>
                                 <td>
                                     <form method="POST" action="/admin/delete/{{ student.id }}"
                                         id="del-{{ student.id }}">
@@ -149,7 +173,7 @@
                             </tr>
                             {% else %}
                             <tr>
-                                <td colspan="8" class="empty-state">
+                                <td colspan="13" class="empty-state">
                                     {% if search or dept_filter %}
                                     No students match your search.
                                     {% else %}

@@ -4,7 +4,7 @@ import os
 import csv
 import io
 from functools import wraps
-from database import init_db, DB_PATH
+from database import init_db, migrate_db, DB_PATH
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -17,6 +17,7 @@ ADMIN_PASSWORD = os.getenv('ADMIN_PASSWORD', '123rusa123')
 
 if not os.path.exists(DB_PATH):
     init_db()
+migrate_db()
 
 def get_db():
     conn = sqlite3.connect(DB_PATH)
@@ -32,28 +33,47 @@ def login_required(f):
         return f(*args, **kwargs)
     return decorated
 
-# ── REGISTER ──
+# ── LANDING ──
 @app.route('/')
+def landing():
+    return render_template('landing.html')
+
+# ── REGISTER ──
+@app.route('/register')
 def register():
     return render_template('register.html')
 
 # ── SUBMIT ──
 @app.route('/submit', methods=['POST'])
 def submit():
-    name             = request.form.get('name', '').strip()
-    roll_number      = request.form.get('roll_number', '').strip()
-    department       = request.form.get('department', '').strip()
+    name               = request.form.get('name', '').strip()
+    roll_number        = request.form.get('roll_number', '').strip()
+    department         = request.form.get('department', '').strip()
     interested_domains = request.form.get('interested_domains', '').strip()
-    events           = request.form.get('events', '').strip()
-    email            = request.form.get('email', '').strip()
+    events             = request.form.get('events', '').strip()
+    email              = request.form.get('email', '').strip()
+    phone_number       = request.form.get('phone_number', '').strip()
+    suggestions        = request.form.get('suggestions', '').strip()
+    expectations       = request.form.get('expectations', '').strip()
+    rating_raw         = request.form.get('rating', '').strip()
+    involvement        = request.form.get('involvement_interest', '').strip()
 
     if not all([name, roll_number, department, interested_domains, events, email]):
         flash("All fields are required!", "error")
-        return redirect('/')
+        return redirect('/register')
 
     if len(roll_number) != 8 or not roll_number.isdigit():
         flash("Roll Number must be exactly 8 digits.", "error")
-        return redirect('/')
+        return redirect('/register')
+
+    rating = None
+    if rating_raw:
+        try:
+            rating = int(rating_raw)
+            if not (1 <= rating <= 10):
+                rating = None
+        except ValueError:
+            rating = None
 
     conn = get_db()
 
@@ -61,17 +81,17 @@ def submit():
     if conn.execute('SELECT 1 FROM students WHERE roll_number = ?', (roll_number,)).fetchone():
         flash("This roll number is already registered.", "error")
         conn.close()
-        return redirect('/')
+        return redirect('/register')
 
     # Duplicate email check
     if conn.execute('SELECT 1 FROM students WHERE LOWER(email) = LOWER(?)', (email,)).fetchone():
         flash("This email address is already registered.", "error")
         conn.close()
-        return redirect('/')
+        return redirect('/register')
 
     conn.execute(
-        'INSERT INTO students (name, roll_number, email, department, interested_domains, events) VALUES (?, ?, ?, ?, ?, ?)',
-        (name, roll_number, email, department, interested_domains, events)
+        'INSERT INTO students (name, roll_number, email, phone_number, department, interested_domains, events, suggestions, expectations, rating, involvement_interest) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+        (name, roll_number, email, phone_number or None, department, interested_domains, events, suggestions or None, expectations or None, rating, involvement or None)
     )
     conn.commit()
     conn.close()
@@ -137,16 +157,18 @@ def admin():
 def export_csv():
     conn = get_db()
     students = conn.execute(
-        'SELECT name, roll_number, email, department, interested_domains, events FROM students ORDER BY name COLLATE NOCASE ASC'
+        'SELECT name, roll_number, email, phone_number, department, interested_domains, events, suggestions, expectations, rating, involvement_interest FROM students ORDER BY name COLLATE NOCASE ASC'
     ).fetchall()
     conn.close()
 
     output = io.StringIO()
     writer = csv.writer(output)
-    writer.writerow(['Name', 'Roll Number', 'Email', 'Department', 'Interested Domains', 'Events'])
+    writer.writerow(['Name', 'Roll Number', 'Email', 'Phone Number', 'Department', 'Interested Domains', 'Events', 'Suggestions', 'Expectations', 'Rating', 'Involvement Interest'])
     for s in students:
-        writer.writerow([s['name'], s['roll_number'], s['email'],
-                         s['department'], s['interested_domains'], s['events']])
+        writer.writerow([s['name'], s['roll_number'], s['email'], s['phone_number'] or '',
+                         s['department'], s['interested_domains'], s['events'],
+                         s['suggestions'] or '', s['expectations'] or '', s['rating'] or '',
+                         s['involvement_interest'] or ''])
 
     return Response(
         output.getvalue(),
