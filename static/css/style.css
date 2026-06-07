@@ -9,16 +9,16 @@
 }
 
 :root {
-    --bg: #0f172a;
-    --card-bg: rgba(30, 41, 59, 0.75);
-    --input-bg: rgba(15, 23, 42, 0.6);
+    --bg: #020617;
+    --card-bg: rgba(15, 23, 42, 0.75);
+    --input-bg: rgba(2, 6, 23, 0.6);
     --border: rgba(148, 163, 184, 0.12);
     --border-focus: rgba(139, 92, 246, 0.7);
     --text: #f8fafc;
     --muted: #94a3b8;
-    --purple: #8b5cf6;
-    --pink: #ec4899;
-    --teal: #2dd4bf;
+    --purple: #4f46e5;
+    --pink: #38bdf8;
+    --teal: #818cf8;
     --error: #f87171;
     --success: #34d399;
     --radius: 18px;
@@ -153,7 +153,7 @@ body {
     display: inline-block;
     background: rgba(139, 92, 246, 0.25);
     border: 1px solid rgba(139, 92, 246, 0.5);
-    color: #c4b5fd;
+    color: #cbd5e1;
     font-size: 0.7rem;
     font-weight: 700;
     letter-spacing: 1.8px;
@@ -348,7 +348,7 @@ body {
 
 .btn-outline:hover {
     border-color: var(--purple);
-    color: #c4b5fd;
+    color: #cbd5e1;
     background: rgba(139, 92, 246, 0.08);
 }
 
@@ -422,7 +422,7 @@ body {
 }
 
 .card-footer-link a:hover {
-    color: #c4b5fd;
+    color: #cbd5e1;
 }
 
 /* ── ADMIN ── */
@@ -642,7 +642,7 @@ tbody td {
     text-transform: uppercase;
     background: rgba(139, 92, 246, 0.18);
     border: 1px solid rgba(139, 92, 246, 0.35);
-    color: #c4b5fd;
+    color: #cbd5e1;
     white-space: nowrap;
 }
 

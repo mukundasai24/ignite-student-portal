@@ -104,8 +104,8 @@
                 {% if search or dept_filter %}
                 <p style="color:var(--muted); font-size:0.82rem; margin-bottom:1rem;">
                     Showing {{ students | length }} result{{ 's' if students|length != 1 }}
-                    {% if search %}for "<strong style="color:#c4b5fd;">{{ search }}</strong>"{% endif %}
-                    {% if dept_filter %}in <strong style="color:#c4b5fd;">{{ dept_filter | upper }}</strong>{% endif %}
+                    {% if search %}for "<strong style="color:#cbd5e1;">{{ search }}</strong>"{% endif %}
+                    {% if dept_filter %}in <strong style="color:#cbd5e1;">{{ dept_filter | upper }}</strong>{% endif %}
                 </p>
                 {% endif %}
 
@@ -143,7 +143,7 @@
                                 <td>
                                     {% if student.involvement_interest %}
                                     {% set inv_map = {'joining':'🎓 Member','participating':'🎯 Participating','volunteering':'🤝 Volunteering','all':'🌟 All!','not_now':'⏳ Not now'} %}
-                                    <span style="font-size:0.8rem;color:#c4b5fd;">{{ inv_map.get(student.involvement_interest, student.involvement_interest) }}</span>
+                                    <span style="font-size:0.8rem;color:#cbd5e1;">{{ inv_map.get(student.involvement_interest, student.involvement_interest) }}</span>
                                     {% else %}
                                     <span style="color:var(--muted);">—</span>
                                     {% endif %}
@@ -154,7 +154,7 @@
                                     {% if student.rating %}
                                     <span style="display:inline-flex;align-items:center;justify-content:center;
                                         width:32px;height:32px;border-radius:8px;
-                                        background:linear-gradient(90deg,#8b5cf6,#ec4899);
+                                        background:linear-gradient(90deg,#4f46e5,#38bdf8);
                                         color:#fff;font-weight:700;font-size:0.85rem;">{{ student.rating }}</span>
                                     {% else %}
                                     <span style="color:var(--muted);">—</span>

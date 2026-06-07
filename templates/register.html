@@ -118,7 +118,7 @@
         #typed-sub::after {
             content: '|';
             animation: blink 0.9s step-end infinite;
-            color: #8b5cf6;
+            color: #4f46e5;
             margin-left: 1px;
         }
 
@@ -216,7 +216,7 @@
             font-weight: 700;
             letter-spacing: 0.22em;
             text-transform: uppercase;
-            background: linear-gradient(90deg, #8b5cf6, #ec4899, #2dd4bf, #8b5cf6);
+            background: linear-gradient(90deg, #4f46e5, #38bdf8, #818cf8, #4f46e5);
             background-size: 300% 100%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -257,7 +257,7 @@
             top: 0;
             left: 0;
             height: 3px;
-            background: linear-gradient(90deg, #8b5cf6, #ec4899);
+            background: linear-gradient(90deg, #4f46e5, #38bdf8);
             width: 0%;
             z-index: 999;
             transition: width 0.4s ease;
@@ -469,7 +469,7 @@
             H = canvas.height = window.innerHeight;
         }
 
-        const COLORS = ['139,92,246', '45,212,191', '236,72,153', '99,102,241'];
+        const COLORS = ['79,70,229', '129,140,248', '56,189,248', '99,102,241'];
         // Shape types: 0=dot, 1=triangle, 2=square, 3=ring, 4=cross, 5=star
         function mkParticle() {
             return {
@@ -569,7 +569,7 @@
                         ctx.beginPath();
                         ctx.moveTo(dots[i].x, dots[i].y);
                         ctx.lineTo(dots[j].x, dots[j].y);
-                        ctx.strokeStyle = `rgba(139,92,246,${0.07 * (1 - dist / 100)})`;
+                        ctx.strokeStyle = `rgba(79,70,229,${0.07 * (1 - dist / 100)})`;
                         ctx.lineWidth = 0.4;
                         ctx.stroke();
                     }
@@ -804,7 +804,7 @@
                 // Update visual state
                 document.querySelectorAll('.rating-btn').forEach((b, i) => {
                     if (i < val) {
-                        b.style.background = 'linear-gradient(90deg, #8b5cf6, #ec4899)';
+                        b.style.background = 'linear-gradient(90deg, #4f46e5, #38bdf8)';
                         b.style.color = '#fff';
                         b.style.borderColor = 'transparent';
                         b.style.transform = 'scale(1.08)';
@@ -822,9 +822,9 @@
         /* Textarea focus glow */
         document.querySelectorAll('textarea').forEach(ta => {
             ta.addEventListener('focus', () => {
-                ta.style.borderColor = 'rgba(139,92,246,0.7)';
-                ta.style.boxShadow = '0 0 0 3px rgba(139,92,246,0.12)';
-                ta.style.background = 'rgba(139,92,246,0.06)';
+                ta.style.borderColor = 'rgba(79,70,229,0.7)';
+                ta.style.boxShadow = '0 0 0 3px rgba(79,70,229,0.12)';
+                ta.style.background = 'rgba(79,70,229,0.06)';
             });
             ta.addEventListener('blur', () => {
                 ta.style.borderColor = 'var(--border)';
@@ -849,11 +849,11 @@
                     dot.textContent = '';
                 });
                 // Highlight selected
-                this.style.borderColor = 'rgba(139,92,246,0.6)';
-                this.style.background = 'rgba(139,92,246,0.08)';
-                this.style.color = '#c4b5fd';
+                this.style.borderColor = 'rgba(79,70,229,0.6)';
+                this.style.background = 'rgba(79,70,229,0.08)';
+                this.style.color = '#cbd5e1';
                 const dot = this.querySelector('.involve-check');
-                dot.style.background = 'linear-gradient(135deg, #8b5cf6, #ec4899)';
+                dot.style.background = 'linear-gradient(135deg, #4f46e5, #38bdf8)';
                 dot.style.borderColor = 'transparent';
                 dot.textContent = '✓';
                 dot.style.color = '#fff';
