@@ -246,6 +246,12 @@ body {
     box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.12);
 }
 
+/* Hide native Edge password reveal icon to prevent overlap with custom toggle */
+.field input::-ms-reveal,
+.field input::-ms-clear {
+    display: none;
+}
+
 /* Real-time validation states */
 .field input.valid {
     border-color: rgba(52, 211, 153, 0.5);
