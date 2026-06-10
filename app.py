@@ -3,6 +3,8 @@ import sqlite3
 import os
 import csv
 import io
+import requests
+import threading
 from functools import wraps
 from database import init_db, migrate_db, DB_PATH
 from dotenv import load_dotenv
@@ -37,6 +39,16 @@ def login_required(f):
 @app.route('/')
 def landing():
     return render_template('landing.html')
+
+# ── GOOGLE SHEETS WEBHOOK ──
+def send_to_google_sheet(data):
+    webhook_url = os.getenv('GOOGLE_SHEET_URL')
+    if not webhook_url:
+        return
+    try:
+        requests.post(webhook_url, json=data, timeout=5)
+    except Exception as e:
+        print(f"Error sending to Google Sheet: {e}")
 
 # ── REGISTER ──
 @app.route('/register')
@@ -95,6 +107,22 @@ def submit():
     )
     conn.commit()
     conn.close()
+
+    # Send to Google Sheets in background
+    sheet_data = {
+        "name": name,
+        "roll_number": roll_number,
+        "email": email,
+        "phone_number": phone_number,
+        "department": department,
+        "interested_domains": interested_domains,
+        "events": events,
+        "suggestions": suggestions,
+        "expectations": expectations,
+        "rating": rating,
+        "involvement": involvement
+    }
+    threading.Thread(target=send_to_google_sheet, args=(sheet_data,)).start()
 
     return render_template('success.html', name=name, roll_number=roll_number, department=department.upper())
 
