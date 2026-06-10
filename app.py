@@ -44,11 +44,14 @@ def landing():
 def send_to_google_sheet(data):
     webhook_url = os.getenv('GOOGLE_SHEET_URL')
     if not webhook_url:
-        return
+        return {"status": "success", "message": "Local only"}
     try:
-        requests.post(webhook_url, json=data, timeout=5)
+        response = requests.post(webhook_url, json=data, timeout=8)
+        return response.json()
     except Exception as e:
         print(f"Error sending to Google Sheet: {e}")
+        # If it fails, we still want to allow local registration to proceed just in case
+        return {"status": "success"}
 
 # ── REGISTER ──
 @app.route('/register')
@@ -101,14 +104,7 @@ def submit():
         conn.close()
         return redirect('/register')
 
-    conn.execute(
-        'INSERT INTO students (name, roll_number, email, phone_number, department, interested_domains, events, suggestions, expectations, rating, involvement_interest) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-        (name, roll_number, email, phone_number or None, department, interested_domains, events, suggestions or None, expectations or None, rating, involvement or None)
-    )
-    conn.commit()
-    conn.close()
-
-    # Send to Google Sheets in background
+    # Send to Google Sheets and check for permanent duplicates
     sheet_data = {
         "name": name,
         "roll_number": roll_number,
@@ -122,7 +118,23 @@ def submit():
         "rating": rating,
         "involvement": involvement
     }
-    threading.Thread(target=send_to_google_sheet, args=(sheet_data,)).start()
+    sheet_response = send_to_google_sheet(sheet_data)
+    if sheet_response and sheet_response.get("status") == "duplicate":
+        flash(sheet_response.get("message", "Already registered."), "error")
+        conn.close()
+        return redirect('/register')
+    elif sheet_response and sheet_response.get("status") == "error":
+        flash(sheet_response.get("message", "Error connecting to database."), "error")
+        conn.close()
+        return redirect('/register')
+
+    # Insert into local database
+    conn.execute(
+        'INSERT INTO students (name, roll_number, email, phone_number, department, interested_domains, events, suggestions, expectations, rating, involvement_interest) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+        (name, roll_number, email, phone_number or None, department, interested_domains, events, suggestions or None, expectations or None, rating, involvement or None)
+    )
+    conn.commit()
+    conn.close()
 
     return render_template('success.html', name=name, roll_number=roll_number, department=department.upper())
 
