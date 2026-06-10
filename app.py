@@ -58,7 +58,7 @@ def submit():
     rating_raw         = request.form.get('rating', '').strip()
     involvement        = request.form.get('involvement_interest', '').strip()
 
-    if not all([name, roll_number, department, interested_domains, events, email]):
+    if not all([name, roll_number, department, interested_domains, events, email, phone_number, suggestions, expectations, involvement, rating_raw]):
         flash("All fields are required!", "error")
         return redirect('/register')
 

@@ -368,7 +368,7 @@
                     <span class="field-hint" id="hint-events"></span>
                 </div>
 
-                <div class="field-group-label fg4">Ignite Club Feedback <span style="font-size:0.65rem;opacity:0.7;">(Optional)</span></div>
+                <div class="field-group-label fg4">Ignite Club Feedback</div>
 
                 <div class="field" id="f-suggestions">
                     <textarea id="suggestions" name="suggestions" rows="3"
@@ -377,6 +377,7 @@
                         border-radius:var(--radius-sm); padding:15px 18px; color:var(--text);
                         font-family:'Outfit',sans-serif; font-size:0.95rem; outline:none; resize:vertical;
                         transition:border-color var(--t), box-shadow var(--t), background var(--t);"></textarea>
+                    <span class="field-hint" id="hint-suggestions"></span>
                 </div>
 
                 <div class="field" id="f-expectations">
@@ -386,6 +387,7 @@
                         border-radius:var(--radius-sm); padding:15px 18px; color:var(--text);
                         font-family:'Outfit',sans-serif; font-size:0.95rem; outline:none; resize:vertical;
                         transition:border-color var(--t), box-shadow var(--t), background var(--t);"></textarea>
+                    <span class="field-hint" id="hint-expectations"></span>
                 </div>
 
                 <div class="field" id="f-involvement" style="animation-delay:1.15s;">
@@ -427,6 +429,7 @@
                         </label>
                         {% endfor %}
                     </div>
+                    <span class="field-hint" id="hint-involvement"></span>
                 </div>
 
                 <div class="field" id="f-rating">
@@ -447,6 +450,7 @@
                         {% endfor %}
                     </div>
                     <p id="rating-label" style="font-size:0.75rem; color:var(--purple); margin-top:0.5rem; min-height:1.2em;"></p>
+                    <span class="field-hint" id="hint-rating"></span>
                 </div>
 
                 <button type="submit" class="btn-submit" id="submit-btn">
@@ -652,20 +656,30 @@
            3. PROGRESS BAR (tracks filled fields)
         ══════════════════════════════════════ */
         const progressBar = document.getElementById('progress-bar');
-        const allFields = ['name', 'email', 'roll_number', 'department', 'interested_domains', 'events'];
+        const allFields = ['name', 'email', 'roll_number', 'department', 'interested_domains', 'events', 'phone_number', 'suggestions', 'expectations'];
 
         function updateProgress() {
-            const filled = allFields.filter(id => {
+            let filled = allFields.filter(id => {
                 const el = document.getElementById(id);
                 return el && el.value.trim() !== '';
             }).length;
-            progressBar.style.width = (filled / allFields.length * 100) + '%';
+
+            if (document.querySelector('input[name="involvement_interest"]:checked')) filled++;
+            if (document.querySelector('input[name="rating"]:checked')) filled++;
+
+            const totalFields = allFields.length + 2; // +2 for the two radio groups
+            progressBar.style.width = (filled / totalFields * 100) + '%';
         }
 
         allFields.forEach(id => {
             const el = document.getElementById(id);
             if (el) el.addEventListener('input', updateProgress);
             if (el) el.addEventListener('change', updateProgress);
+        });
+
+        // Also bind radio buttons for progress
+        document.querySelectorAll('input[type="radio"]').forEach(radio => {
+            radio.addEventListener('change', updateProgress);
         });
 
         /* ══════════════════════════════════════
@@ -693,21 +707,21 @@
         function setValid(fId, hId, msg) {
             const f = document.getElementById(fId), h = document.getElementById(hId);
             f.classList.remove('has-error'); f.classList.add('has-success');
-            h.textContent = msg;
-            const inp = f.querySelector('input,select');
+            if(h) h.textContent = msg;
+            const inp = f.querySelector('input,select,textarea');
             if (inp) { inp.classList.remove('invalid'); inp.classList.add('valid'); }
         }
         function setError(fId, hId, msg) {
             const f = document.getElementById(fId), h = document.getElementById(hId);
             f.classList.remove('has-success'); f.classList.add('has-error');
-            h.textContent = msg;
-            const inp = f.querySelector('input,select');
+            if(h) h.textContent = msg;
+            const inp = f.querySelector('input,select,textarea');
             if (inp) { inp.classList.remove('valid'); inp.classList.add('invalid'); }
         }
         function clearState(fId) {
             const f = document.getElementById(fId);
             f.classList.remove('has-error', 'has-success');
-            const inp = f.querySelector('input,select');
+            const inp = f.querySelector('input,select,textarea');
             if (inp) inp.classList.remove('valid', 'invalid');
         }
 
@@ -777,9 +791,12 @@
             const checks = [
                 { id: 'name', fId: 'f-name', hId: 'hint-name', msg: 'Full name is required.' },
                 { id: 'email', fId: 'f-email', hId: 'hint-email', msg: 'Valid email is required.' },
+                { id: 'phone_number', fId: 'f-phone', hId: 'hint-phone', msg: 'Phone number is required.' },
                 { id: 'roll_number', fId: 'f-roll', hId: 'hint-roll', msg: '8-digit roll number required.' },
                 { id: 'interested_domains', fId: 'f-domains', hId: 'hint-domains', msg: 'Enter your interested domains.' },
                 { id: 'events', fId: 'f-events', hId: 'hint-events', msg: 'Enter events of interest.' },
+                { id: 'suggestions', fId: 'f-suggestions', hId: 'hint-suggestions', msg: 'Suggestions are required.' },
+                { id: 'expectations', fId: 'f-expectations', hId: 'hint-expectations', msg: 'Expectations are required.' }
             ];
             checks.forEach(c => {
                 const el = document.getElementById(c.id);
@@ -788,6 +805,20 @@
             if (!dept.value) { setError('f-dept', 'hint-dept', 'Please select a department.'); valid = false; }
             if (!/^\d{8}$/.test(document.getElementById('roll_number').value)) {
                 setError('f-roll', 'hint-roll', 'Must be exactly 8 digits.'); valid = false;
+            }
+
+            if (!document.querySelector('input[name="involvement_interest"]:checked')) {
+                setError('f-involvement', 'hint-involvement', 'Please select your involvement interest.');
+                valid = false;
+            } else {
+                clearState('f-involvement');
+            }
+
+            if (!document.querySelector('input[name="rating"]:checked')) {
+                setError('f-rating', 'hint-rating', 'Please provide a rating.');
+                valid = false;
+            } else {
+                clearState('f-rating');
             }
             if (!valid || submitBtn.style.cursor === 'not-allowed') { e.preventDefault(); return; }
 
