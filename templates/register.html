@@ -736,12 +736,31 @@
             }
         });
 
+        const submitBtn = document.getElementById('submit-btn');
+        // Initialize submit button state based on current roll number value (useful for back navigation)
+        const initialRoll = document.getElementById('roll_number').value;
+        if (!/^\d{8}$/.test(initialRoll)) {
+            submitBtn.style.opacity = '0.5';
+            submitBtn.style.cursor = 'not-allowed';
+        }
+
         document.getElementById('roll_number').addEventListener('input', function () {
             this.value = this.value.replace(/\D/g, '');
-            if (!this.value) { clearState('f-roll'); return; }
-            /^\d{8}$/.test(this.value)
-                ? setValid('f-roll', 'hint-roll', '✓ 8-digit roll number.')
-                : setError('f-roll', 'hint-roll', `${this.value.length}/8 digits entered.`);
+            if (!this.value) { 
+                clearState('f-roll'); 
+                submitBtn.style.opacity = '0.5';
+                submitBtn.style.cursor = 'not-allowed';
+                return; 
+            }
+            if (/^\d{8}$/.test(this.value)) {
+                setValid('f-roll', 'hint-roll', '✓ 8-digit roll number.');
+                submitBtn.style.opacity = '1';
+                submitBtn.style.cursor = 'pointer';
+            } else {
+                setError('f-roll', 'hint-roll', `${this.value.length}/8 digits entered.`);
+                submitBtn.style.opacity = '0.5';
+                submitBtn.style.cursor = 'not-allowed';
+            }
             updateProgress();
         });
 
@@ -770,14 +789,13 @@
             if (!/^\d{8}$/.test(document.getElementById('roll_number').value)) {
                 setError('f-roll', 'hint-roll', 'Must be exactly 8 digits.'); valid = false;
             }
-            if (!valid) { e.preventDefault(); return; }
+            if (!valid || submitBtn.style.cursor === 'not-allowed') { e.preventDefault(); return; }
 
             progressBar.style.width = '100%';
             progressBar.style.transition = 'width 0.6s ease';
-            const btn = document.getElementById('submit-btn');
-            btn.innerHTML = '<span style="display:inline-flex;align-items:center;gap:8px"><span class="spin">⟳</span> Submitting…</span>';
-            btn.disabled = true;
-            btn.style.opacity = '0.85';
+            submitBtn.innerHTML = '<span style="display:inline-flex;align-items:center;gap:8px"><span class="spin">⟳</span> Submitting…</span>';
+            submitBtn.disabled = true;
+            submitBtn.style.opacity = '0.85';
         });
 
         /* ══════════════════════════════════════
