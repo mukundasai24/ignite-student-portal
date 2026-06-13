@@ -92,17 +92,9 @@ def submit():
 
     conn = get_db()
 
-    # Duplicate roll number check
-    if conn.execute('SELECT 1 FROM students WHERE roll_number = ?', (roll_number,)).fetchone():
-        flash("This roll number is already registered.", "error")
-        conn.close()
-        return redirect('/register')
+    # Duplicate roll number check removed as per request
 
-    # Duplicate email check
-    if conn.execute('SELECT 1 FROM students WHERE LOWER(email) = LOWER(?)', (email,)).fetchone():
-        flash("This email address is already registered.", "error")
-        conn.close()
-        return redirect('/register')
+    # Duplicate email check removed as per request
 
     # Send to Google Sheets and check for permanent duplicates
     sheet_data = {
@@ -120,9 +112,8 @@ def submit():
     }
     sheet_response = send_to_google_sheet(sheet_data)
     if sheet_response and sheet_response.get("status") == "duplicate":
-        flash(sheet_response.get("message", "Already registered."), "error")
-        conn.close()
-        return redirect('/register')
+        # Google sheet might report duplicate, but we proceed anyway
+        pass
     elif sheet_response and sheet_response.get("status") == "error":
         flash(sheet_response.get("message", "Error connecting to database."), "error")
         conn.close()
